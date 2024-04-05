@@ -31,17 +31,25 @@ class HomeScaffold extends StatelessWidget {
               child: Assets.images.clockcalendar.image(),
             ),
           ),
-          const Gap(10),
+          const Gap(5),
           ElevatedButton(
-              onPressed: () {
-                DateTimeToast().show(
-                  message: "Toast Example",
-                  dateTime: DateTime(2024, 1, 15, 14, 30),
-                  duration: const Duration(seconds: 3),
-                  position: DateTimeToastPosition.bottom,
-                );
-              },
-              child: const Text('Show datetime Toast'))
+            onPressed: () {
+              DateTimeToast().show(
+                message: "Toast Example",
+                dateTime: DateTime(2024, 1, 15, 14, 30),
+                duration: const Duration(seconds: 3),
+                position: DateTimeToastPosition.bottom,
+              );
+            },
+            child: const Text('Show datetime Toast'),
+          ),
+          const Gap(5),
+          UISelectDateTimeUnit(
+            initialUnit: DateTimeUnit.month,
+            onChanged: (unit) {
+              debugPrint('Selected unit: $unit');
+            },
+          ),
         ],
       ),
     );

@@ -19,4 +19,55 @@ DateTimeToast().show(
 
 ## Installation
 
+```yaml
+dependencies:
+  ui_datetime_flutter:
+    git: https://github.com/GitHubStuff/ui_datetime_flutter.git
+```
 
+## Setup
+
+Call the ```setup``` in the main.dart at the root of the widget tree:
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: DateTimeToast.setUp(child: const MyApp()),
+    ),
+  );
+}
+```
+
+## API Reference
+
+```dart
+DateTimeToast().show(...);
+```
+
+Displays a toast notification with date and time information.
+
+Parameters:
+-message: The message to be displayed in the toast.
+-dateTime: The date and time to be included in the toast (default is the current system time).
+-position: The position of the toast (top, center, or bottom) (default is bottom).
+-duration: The duration for which the toast should be displayed (default is 2750 milliseconds).
+-formatString: The format string to use for formatting the date and time (default is 'EEE d-MMM-yyyy h:mm:ss a').
+-toaster: The toaster widget to use for displaying the toast (default is okToast.OKToast).
+
+Default Values
+
+-duration: 2750 milliseconds
+-formatString: 'EEE d-MMM-yyyy h:mm:ss a'
+-toaster: okToast.OKToast
+
+## License
+
+2004 Apache License see [LICENSE.txt](LICENSE.txt)
+
+## Finally
+
+Be kind to each other!
