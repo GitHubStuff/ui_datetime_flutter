@@ -1,6 +1,7 @@
 library ui_datetime_flutter;
 
 export 'source/classes/datetime_interval.dart';
+export 'source/constants/datetime_constats.dart';
 export 'source/enums/datetime_ordering.dart';
 export 'source/enums/datetime_toast_position.dart';
 export 'source/enums/datetime_unit.dart';
