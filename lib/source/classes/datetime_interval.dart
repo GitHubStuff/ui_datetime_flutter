@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import '../constants/datetime_constats.dart';
 import '../enums/datetime_ordering.dart';
 import '../enums/datetime_unit.dart';
-import '../extensions/num_ext.dart';
+import '../extensions/datetime_num.dart';
 
 /// A utility class for calculating the interval between two DateTime objects.
 

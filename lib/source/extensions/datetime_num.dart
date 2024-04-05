@@ -1,6 +1,6 @@
 import '../constants/datetime_constats.dart';
 
-extension NumExt on num {
+extension DateTimeNum on num {
   /// Converts the numeric value to months.
   ///
   /// This extension multiplies the numeric value by the constant [monthsPerYear]
