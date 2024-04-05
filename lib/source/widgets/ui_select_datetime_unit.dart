@@ -2,10 +2,41 @@ import 'package:flutter/material.dart';
 
 import '../enums/datetime_unit.dart';
 
+/// A widget for selecting DateTimeUnit.
+///
+/// This widget allows users to select a DateTimeUnit, such as year, month, day, hour, minute, second,
+/// millisecond, or microsecond. It provides radio buttons for each DateTimeUnit option.
+///
+/// The [initialUnit] parameter specifies the initial DateTimeUnit selected when the widget is first built.
+///
+/// The [onChanged] parameter is a callback function that is called whenever the selected DateTimeUnit changes.
+///
+/// The [showMillisecond] parameter determines whether to display the millisecond option.
+///
+/// The [showMicroSecond] parameter determines whether to display the microsecond option.
+///
+/// Example:
+/// ```dart
+/// UISelectDateTimeUnit(
+///   initialUnit: DateTimeUnit.year,
+///   onChanged: (unit) {
+///     print('Selected DateTimeUnit: $unit');
+///   },
+///   showMillsecond: true,
+///   showMicroSecond: false,
+/// )
+/// ```
 class UISelectDateTimeUnit extends StatefulWidget {
+  /// The initial DateTimeUnit selected when the widget is first built.
   final DateTimeUnit initialUnit;
+
+  /// A callback function called whenever the selected DateTimeUnit changes.
   final Function(DateTimeUnit) onChanged;
+
+  /// Determines whether to display the millisecond option.
   final bool showMillsecond;
+
+  /// Determines whether to display the microsecond option.
   final bool showMicroSecond;
 
   const UISelectDateTimeUnit({
@@ -69,6 +100,7 @@ class _UISelectDateTimeUnit extends State<UISelectDateTimeUnit> {
     );
   }
 
+  /// Builds a radio button for the given [value] of DateTimeUnit.
   Widget radioButton(DateTimeUnit value) {
     return Flexible(
       child: InkWell(
@@ -80,19 +112,21 @@ class _UISelectDateTimeUnit extends State<UISelectDateTimeUnit> {
               value: value.label,
               groupValue: selectedValue.label,
               onChanged: (value) =>
-                  setSelectedValue(CaptilizeDateTimeUnit.from(value!)),
+                  setSelectedValue(CapitalizeDateTimeUnit.from(value!)),
             ),
             Flexible(
-                child: Text(
-              value.label,
-              overflow: TextOverflow.ellipsis,
-            ))
+              child: Text(
+                value.label,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
+  /// Sets the selected DateTimeUnit and invokes the onChanged callback.
   void setSelectedValue(DateTimeUnit value) {
     setState(() {
       selectedValue = value;
@@ -101,8 +135,12 @@ class _UISelectDateTimeUnit extends State<UISelectDateTimeUnit> {
   }
 }
 
-extension CaptilizeDateTimeUnit on DateTimeUnit {
+/// Extension to capitalize the first letter of DateTimeUnit name.
+extension CapitalizeDateTimeUnit on DateTimeUnit {
+  /// Returns the name of DateTimeUnit with the first letter capitalized.
   String get label => name[0].toUpperCase() + name.substring(1);
+
+  /// Converts a string to DateTimeUnit.
   static DateTimeUnit from(String string) {
     for (DateTimeUnit unit in DateTimeUnit.values) {
       if (unit.name.toLowerCase() == string.toLowerCase()) return unit;

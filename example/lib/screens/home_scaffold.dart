@@ -7,6 +7,8 @@ import '../gen/assets.gen.dart';
 
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
+import '../widgets/sample_datetime_widget.dart';
+
 class HomeScaffold extends StatelessWidget {
   const HomeScaffold({super.key});
 
@@ -50,6 +52,12 @@ class HomeScaffold extends StatelessWidget {
               debugPrint('Selected unit: $unit');
             },
           ),
+          const Gap(5),
+          UIDateTimePicker(
+              onDateTimeSelected: (dateTime) =>
+                  debugPrint(dateTime.toIso8601String())),
+          const SizedBox(height: 10),
+          const SampleDateTimeWidget(),
         ],
       ),
     );
