@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
 import 'screens/app_module.dart';
 
@@ -9,7 +10,7 @@ void main() async {
   runApp(
     ModularApp(
       module: AppModule(),
-      child: const MyApp(),
+      child: DateTimeToast.setUp(child: const MyApp()),
     ),
   );
 }

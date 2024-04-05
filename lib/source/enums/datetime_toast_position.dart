@@ -2,6 +2,7 @@
 ///
 /// The [DateTimeToastPosition] enum provides options for specifying the
 /// position of the toast notification, including top, center, and bottom.
+library;
 
 import 'package:oktoast/oktoast.dart' as ok;
 
