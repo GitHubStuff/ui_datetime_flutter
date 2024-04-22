@@ -1,10 +1,23 @@
 # Purpose
 
-Provides a date/time picker that uses Cupertino Scroll Widgets to set month/day/year and hour/minute/second in a small sized widget (default/optimal size is 230w X 250h)
+The UIDateTimePicker widget provides a flexible and customizable date and time picker for Flutter applications. It supports dynamic themes, custom date and time formats, and seamless integration with Flutter's native widgets.
 
 ## Features
 
-Uses less space then other widgets, is a good in-line option.
+- **Customizable Colors and Text Styles**: Easily adapt the color scheme and text styling to fit your app's theme.
+- **Dynamic Date and Time Selection**: Users can select both date and time through intuitive interfaces.
+- **Marquee Date Display**: Displays selected date in a scrolling marquee for effective space utilization.
+- **Aqua Style Buttons**: Incorporates aesthetically pleasing aqua-style buttons for actions.
+- **Cross-Fade Animations**: Smooth transitions between date and time selection views.
+- **Accessibility and Internationalization**: Supports internationalization and accessibility features, making it usable for a wide range of users.
+
+## Options
+
+- *datePickerColor*: Sets the background color of the date picker section.
+- *timePickerColor*: Sets the background color of the time picker section.
+- *pickerTextStyle*: Customize the text style of the items in the picker.
+- *titleTextStyle*: Text style for the date/time display header.
+- *acceptButton*: Customize the accept button with different styles and callbacks.
 
 ## Usage
 

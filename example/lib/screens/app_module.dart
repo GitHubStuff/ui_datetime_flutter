@@ -10,6 +10,6 @@ class AppModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/', child: (_) => const HomeScaffold());
+    r.child(Modular.initialRoute, child: (_) => const HomeScaffold());
   }
 }

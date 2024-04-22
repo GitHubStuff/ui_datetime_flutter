@@ -7,7 +7,8 @@ import 'package:ui_aqua_button_flutter/ui_aqua_button_flutter.dart';
 import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
 import 'package:ui_marquee_flutter/ui_marguee_flutter.dart';
 
-import '../../constants/datetime_constats.dart';
+import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
+
 import 'ui_date_picker_wheel.dart';
 import 'ui_timer_picker_wheel.dart';
 
@@ -15,19 +16,10 @@ part 'datetime_caption.dart';
 
 const Size kDateTimePickerSize = Size(230, 250);
 
-// Constants for colors, dimensions, and durations
-const Color _kDatePickerColor = Colors.black;
-const Color _kHeaderColor = Color.fromARGB(255, 14, 29, 97);
-const Color _kTextColor = Color(0xffffd600);
-const Color _kTimePickerColor = Color.fromARGB(255, 14, 4, 100);
 const double _kItemExtent = 30.0;
 const Duration _kCrossFadeDuration = Duration(milliseconds: 500);
-const TextStyle _kPickerTextStyle = TextStyle(color: _kTextColor);
-const TextStyle _kTitleTextStyle =
-    TextStyle(fontWeight: FontWeight.bold, color: _kTextColor);
 const Widget _kDateButtonText = DateTimeCaption(caption: 'Date');
 const Widget _kTimeButtonText = DateTimeCaption(caption: 'Time');
-final DateFormat _kDateFormat = DateFormat('EEE, MMM d, y h:mm:ss a');
 
 // Enum for Opacity values
 enum OpacityEnum {
@@ -39,6 +31,31 @@ enum OpacityEnum {
   const OpacityEnum(this.value);
 }
 
+// Define a method to create MaterialColor
+MaterialColor createMaterialColor(Color color) {
+  List strengths = <double>[.05];
+  final Map<int, Color> swatch = {};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int i = 1; i < 10; i++) {
+    strengths.add(0.1 * i);
+  }
+  for (var strength in strengths) {
+    final double ds = 0.5 - strength;
+    swatch[(strength * 1000).round()] = Color.fromRGBO(
+      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      1,
+    );
+  }
+
+  return MaterialColor(color.value, swatch);
+}
+
+// Define myBlue using the darkest shade as the main color
+final MaterialColor myBlue = createMaterialColor(const Color(0xFF003366));
+
 /// A Flutter widget for selecting date and time.
 class UIDateTimePicker extends StatefulWidget {
   // Constructor for UICalendarFlutter
@@ -47,35 +64,23 @@ class UIDateTimePicker extends StatefulWidget {
     required this.onDateTimeSelected,
     DateTime? dateTime,
     DateFormat? dateFormat,
-    this.pickerTextStyle = _kPickerTextStyle,
-    this.titleTextStyle = _kTitleTextStyle,
-    this.datePickerColor = _kDatePickerColor,
     this.dateText = _kDateButtonText,
-    this.headerColor = _kHeaderColor,
     this.acceptButton = const AquaButton(
       mainRadius: 22.0,
-      materialColor: Colors.green,
+      materialColor: Colors.blue,
     ),
     this.showFirstWidget = true,
     this.size = kDateTimePickerSize,
-    this.textColor = _kTextColor,
-    this.timePickerColor = _kTimePickerColor,
     this.timeText = _kTimeButtonText,
   })  : dateTime = dateTime ?? DateTime.now(),
-        dateFormat = dateFormat ?? _kDateFormat;
+        dateFormat = dateFormat ?? DateFormat(DT.kDateTimeFormat);
 
   // Properties of the UICalendarFlutter widget
   final DateTime dateTime;
   final Function(DateTime) onDateTimeSelected;
   final bool showFirstWidget;
-  final Color datePickerColor;
-  final Color headerColor;
-  final Color textColor;
-  final Color timePickerColor;
   final DateFormat dateFormat;
   final Size size;
-  final TextStyle pickerTextStyle;
-  final TextStyle titleTextStyle;
   final Widget dateText;
   final Widget acceptButton;
   final Widget timeText;
@@ -108,28 +113,30 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    DateTimePickerTheme pickerTheme =
+        Theme.of(context).extension<DateTimePickerTheme>()!;
     return Container(
       // Prevents the height from being zero which throws sizing error
       height: max(widget.size.height, 0.00000000001),
       width: widget.size.width,
       color: Colors.transparent,
-      child: _column(), //pickers(context),
+      child: _column(pickerTheme), //pickers(context),
     );
   }
 
-  Widget _column() {
+  Widget _column(DateTimePickerTheme pickerTheme) {
     return Column(
       children: [
-        Flexible(flex: 4, child: _buildTitle()),
-        Flexible(flex: 4, child: _buildDateTimeSelectionButtons()),
-        Expanded(flex: 8, child: _buildPickerWheels()),
+        Flexible(flex: 4, child: _buildTitle(pickerTheme)),
+        Flexible(flex: 4, child: _buildDateTimeSelectionButtons(pickerTheme)),
+        Expanded(flex: 8, child: _buildPickerWheels(pickerTheme)),
       ],
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(DateTimePickerTheme pickerTheme) {
     return Container(
-      color: widget.headerColor,
+      color: pickerTheme.pickerBackground,
       height: 44.0,
       child: Row(
         children: [
@@ -140,7 +147,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
               rolloverPercentage: 0.85,
               pauseDuration: const Duration(milliseconds: 10),
               scrollVelocityInPixelsPerSecond: 30.0,
-              textStyle: widget.titleTextStyle.copyWith(fontSize: 20),
+              textStyle: pickerTheme.marqueeStyle,
             ),
           ),
           Flexible(
@@ -155,7 +162,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
     );
   }
 
-  Widget _buildDateTimeSelectionButtons() {
+  Widget _buildDateTimeSelectionButtons(DateTimePickerTheme pickerTheme) {
     return SizedBox(
       height: 44.0,
       child: Row(
@@ -165,7 +172,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
             child: GestureDetector(
               onTap: () => setState(() => showFirstWidget = true),
               child: Container(
-                color: widget.datePickerColor,
+                color: pickerTheme.dateBackground,
                 child: Center(child: widget.dateText),
               ),
             ),
@@ -174,7 +181,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
             child: GestureDetector(
               onTap: () => setState(() => showFirstWidget = false),
               child: Container(
-                color: _kTimePickerColor,
+                color: pickerTheme.timeBackground,
                 child: Center(child: widget.timeText),
               ),
             ),
@@ -184,7 +191,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
     );
   }
 
-  Widget _buildPickerWheels() {
+  Widget _buildPickerWheels(DateTimePickerTheme pickerTheme) {
     return Stack(
       children: [
         IgnorePointer(
@@ -196,9 +203,9 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
             duration: _kCrossFadeDuration,
             child: UIDatePickerWheel(
               dateTime: dateTime,
-              backgroundColor: widget.datePickerColor,
+              backgroundColor: pickerTheme.dateBackground,
               pickerItemExtent: _kItemExtent,
-              textStyle: widget.pickerTextStyle,
+              textStyle: pickerTheme.spinerStyle,
               onDateSelected: (DateTime newDateTime) {
                 setState(
                   () => dateTime = dateTime.copyWith(
@@ -223,8 +230,8 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
             duration: _kCrossFadeDuration,
             child: UITimePickerWheel(
               dateTime: dateTime,
-              backgroundColor: widget.timePickerColor,
-              textStyle: widget.pickerTextStyle,
+              backgroundColor: pickerTheme.timeBackground,
+              textStyle: pickerTheme.spinerStyle,
               onTimeSelected: (DateTime newDateTime) {
                 setState(
                   () => dateTime = dateTime.copyWith(
