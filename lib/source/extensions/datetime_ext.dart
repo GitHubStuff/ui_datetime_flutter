@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '../classes/datetime_interval.dart';
-import '../constants/datetime_constats.dart';
+import '../constants/dt.dart';
 import '../enums/datetime_unit.dart';
 
 extension DateTimeExt on DateTime {
@@ -13,24 +13,26 @@ extension DateTimeExt on DateTime {
 
   /// An extension for the DateTime class providing additional functionality.
   /// Returns the number of days in the month and accounts for leap years.
-  int get daysInMonth => [
-        0,
-        31,
-        isLeapYear() ? 29 : 28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
+  /// As DateTime() starts with 1 for January, the placeholder 0 is used for the first element.
+  num get daysInMonth => [
+        DT.kDaysPlaceholder,
+        DT.kDaysJanuary,
+        isLeapYear() ? DT.kDaysFebruaryLeap : DT.kDaysFebruary,
+        DT.kDaysMarch,
+        DT.kDaysApril,
+        DT.kDaysMay,
+        DT.kDaysJune,
+        DT.kDaysJuly,
+        DT.kDaysAugust,
+        DT.kDaysSeptember,
+        DT.kDaysOctober,
+        DT.kDaysNovember,
+        DT.kDaysDecember,
       ][month];
 
   /// Returns a new DateTime with the given number of months added.
   DateTime addToMonth(num months, {bool setToLastDay = true}) {
+    DateTime.january;
     DateTime returnDateTime = toUtc();
     if (months == 0) return this;
     if (months < 0) {
@@ -66,7 +68,7 @@ extension DateTimeExt on DateTime {
       DateTimeInterval(
         startEvent: this,
         endEvent: targetDateTime ?? DateTime.now(),
-        roundedTo: roundedTo,
+        firstDateTimeUnit: roundedTo,
       );
 
   /// Returns true/false if the year is a leap year.
@@ -86,19 +88,18 @@ extension DateTimeExt on DateTime {
       _updateInterval(onType: onType, setToLastDay: setToLastDay, amount: -1);
 
   /// Truncates the DateTime to the specified DateTimeUnit precision.
-  DateTime truncate({DateTimeUnit at = DateTimeUnit.msec}) {
-    Set<DateTimeUnit> itemSet = at.setFrom();
-    assert(itemSet.isNotEmpty, 'itemSet must not be empty');
+  DateTime truncate({DateTimeUnit atDateTimeUnit = DateTimeUnit.second}) {
+    Set<DateTimeUnit> skipUnits = atDateTimeUnit.next?.sublist() ?? {};
     final m = isUtc ? DateTime.utc : DateTime.new;
     return m(
-      itemSet.contains(DateTimeUnit.year) ? 0 : year,
-      itemSet.contains(DateTimeUnit.month) ? 1 : month,
-      itemSet.contains(DateTimeUnit.day) ? 1 : day,
-      itemSet.contains(DateTimeUnit.hour) ? 0 : hour,
-      itemSet.contains(DateTimeUnit.minute) ? 0 : minute,
-      itemSet.contains(DateTimeUnit.second) ? 0 : second,
-      itemSet.contains(DateTimeUnit.msec) ? 0 : millisecond,
-      itemSet.contains(DateTimeUnit.usec) ? 0 : microsecond,
+      skipUnits.contains(DateTimeUnit.year) ? 0 : year,
+      skipUnits.contains(DateTimeUnit.month) ? 1 : month,
+      skipUnits.contains(DateTimeUnit.day) ? 1 : day,
+      skipUnits.contains(DateTimeUnit.hour) ? 0 : hour,
+      skipUnits.contains(DateTimeUnit.minute) ? 0 : minute,
+      skipUnits.contains(DateTimeUnit.second) ? 0 : second,
+      skipUnits.contains(DateTimeUnit.msec) ? 0 : millisecond,
+      skipUnits.contains(DateTimeUnit.usec) ? 0 : microsecond,
     );
   }
 

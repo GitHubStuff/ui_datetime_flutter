@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../constants/datetime_constats.dart';
+import '../constants/dt.dart';
 import '../enums/datetime_ordering.dart';
 import '../enums/datetime_unit.dart';
 import '../extensions/datetime_num.dart';
@@ -19,7 +19,7 @@ import '../extensions/datetime_num.dart';
 /// DateTimeInterval interval = DateTimeInterval(
 ///   startEvent: DateTime(2023, 1, 15),
 ///   endEvent: DateTime(2024, 1, 15),
-///   roundedTo: DateTimeUnit.month,
+///   firstDateTimeUnit: DateTimeUnit.month,
 /// );
 /// print(interval.toString()); // "12 months"
 /// ```
@@ -33,8 +33,8 @@ class DateTimeInterval {
   late final num? hours;
   late final num? minutes;
   late final num? seconds;
-  late final num? msec;
-  late final num? usec;
+  late final num? msecs;
+  late final num? usecs;
   late final DateTimeOrdering direction;
   late final Set<DateTimeUnit> fieldSet;
 
@@ -42,14 +42,14 @@ class DateTimeInterval {
   ///
   /// - [startEvent]: The starting DateTime for the interval.
   /// - [endEvent]: The ending DateTime for the interval.
-  /// - [roundedTo]: The precision of the interval (default is DateTimeUnit.year).
+  /// - [firstDateTimeUnit]: Where the interval value  (default is DateTimeUnit.year).
   DateTimeInterval({
     required DateTime startEvent,
     required DateTime endEvent,
-    DateTimeUnit roundedTo = DateTimeUnit.year,
+    DateTimeUnit firstDateTimeUnit = DateTimeUnit.year,
   })  : finishDateTime = endEvent,
         startDateTime = startEvent,
-        fieldSet = roundedTo.setFrom(),
+        fieldSet = firstDateTimeUnit.sublist(),
         direction = DateTimeOrdering.direction(startEvent, endEvent) {
     // Equal dates
     if (direction == DateTimeOrdering.now) {
@@ -80,32 +80,35 @@ class DateTimeInterval {
 
     if (microCount < 0) {
       milliCount--;
-      microCount += DT.usecPerMsec;
+      microCount += DT.kUsecPerMsec;
     }
     if (milliCount < 0) {
       secondCount--;
-      milliCount += DT.msecPerSecond;
+      milliCount += DT.kMsecPerSecond;
     }
     if (secondCount < 0) {
       minuteCount--;
-      secondCount += DT.secondsPerMinute;
+      secondCount += DT.kSecondsPerMinute;
     }
     if (minuteCount < 0) {
       hourCount--;
-      minuteCount += DT.minutesPerHour;
+      minuteCount += DT.kMinutesPerHour;
     }
     if (hourCount < 0) {
       dayCount--;
-      hourCount += DT.hoursPerDay;
+      hourCount += DT.kHoursPerDay;
     }
 
     if (dayCount < 0) {
       monthCount--;
-      dayCount += DateTime(startEvent.year, startEvent.month - 1, 0).day;
+      final numberOfDaysInMonth =
+          DateTime(startEvent.year, startEvent.month, 0).day;
+      dayCount += numberOfDaysInMonth;
     }
+
     if (monthCount < 0) {
       yearCount--;
-      monthCount += DT.monthsPerYear;
+      monthCount += DT.kMonthsPerYear;
     }
 
     if (!fieldSet.contains(DateTimeUnit.year)) {
@@ -152,12 +155,12 @@ class DateTimeInterval {
   String toString() {
     if (direction == DateTimeOrdering.now) return '00:00:00';
     String result = '';
-    if (usec != null && usec! > 0) {
-      final int milliSeconds = msec!.toInt() * 1000;
+    if (usecs != null && usecs! > 0) {
+      final int milliSeconds = msecs!.toInt() * 1000;
       result += ".${NumberFormat('000000').format(milliSeconds)}";
     }
-    if (result.isEmpty && msec != null && msec! > 0) {
-      result += ".${NumberFormat('000').format(msec)}";
+    if (result.isEmpty && msecs != null && msecs! > 0) {
+      result += ".${NumberFormat('000').format(msecs)}";
     }
     result +=
         "${NumberFormat('00').format(hours ?? 0)}:${NumberFormat('00').format(minutes ?? 0)}:${NumberFormat('00').format(seconds ?? 0)}";
@@ -192,7 +195,7 @@ class DateTimeInterval {
     this.hours = (fieldSet.contains(DateTimeUnit.hour)) ? hours : null;
     this.minutes = (fieldSet.contains(DateTimeUnit.minute)) ? minutes : null;
     this.seconds = (fieldSet.contains(DateTimeUnit.second)) ? seconds : null;
-    msec = (fieldSet.contains(DateTimeUnit.msec)) ? milliseconds : null;
-    usec = (fieldSet.contains(DateTimeUnit.usec)) ? microseconds : null;
+    msecs = (fieldSet.contains(DateTimeUnit.msec)) ? milliseconds : null;
+    usecs = (fieldSet.contains(DateTimeUnit.usec)) ? microseconds : null;
   }
 }
