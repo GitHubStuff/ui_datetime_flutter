@@ -57,6 +57,6 @@ class _UIDateTimePrompt extends State<UIDateTimePrompt> {
               children: [
                 widget.promptWidget,
               ]),
-        ).paddingSymmetric(horizontal: 8.0));
+        ).withSymmetricPadding(horizontal: 8.0));
   }
 }

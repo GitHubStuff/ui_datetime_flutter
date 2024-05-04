@@ -66,7 +66,7 @@ class UIDateTimePicker extends StatefulWidget {
     DateFormat? dateFormat,
     this.dateText = _kDateButtonText,
     this.acceptButton = const AquaButton(
-      mainRadius: 22.0,
+      radius: 22.0,
       materialColor: Colors.blue,
     ),
     this.showFirstWidget = true,
@@ -155,10 +155,10 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
             child: GestureDetector(
               onTap: () => widget.onDateTimeSelected(DT.makeUtc(dateTime)),
               child: widget.acceptButton,
-            ).padding(left: 2.0, top: 4.0, bottom: 4.0),
+            ).withPadding(left: 2.0, top: 4.0, bottom: 4.0),
           ),
         ],
-      ).paddingAll(3.0),
+      ).withPaddingAll(3.0),
     );
   }
 
