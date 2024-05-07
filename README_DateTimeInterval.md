@@ -59,4 +59,4 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Finally
 
-Be kind to each other
+Be kind to each other!

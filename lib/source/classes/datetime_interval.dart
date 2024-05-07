@@ -9,7 +9,7 @@ import '../extensions/datetime_num.dart';
 
 ///
 /// The [DateTimeInterval] class calculates the interval between two DateTime objects
-/// with customizable precision, including years, months, days, hours, minutes,
+/// with customizable precision, including [years], [months], days, hours, minutes,
 /// seconds, milliseconds, and microseconds. It takes into account the direction
 /// of the interval, whether it's "before," "now," or "after" the startDateTime.
 ///

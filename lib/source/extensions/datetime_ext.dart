@@ -15,24 +15,23 @@ extension DateTimeExt on DateTime {
   /// Returns the number of days in the month and accounts for leap years.
   /// As DateTime() starts with 1 for January, the placeholder 0 is used for the first element.
   num get daysInMonth => [
-        DT.kDaysPlaceholder,
-        DT.kDaysJanuary,
-        isLeapYear() ? DT.kDaysFebruaryLeap : DT.kDaysFebruary,
-        DT.kDaysMarch,
-        DT.kDaysApril,
-        DT.kDaysMay,
-        DT.kDaysJune,
-        DT.kDaysJuly,
-        DT.kDaysAugust,
-        DT.kDaysSeptember,
-        DT.kDaysOctober,
-        DT.kDaysNovember,
-        DT.kDaysDecember,
+        0,
+        31, // January
+        28 + (isLeapYear() ? 1 : 0),
+        31, // March
+        30, // April
+        31, // May
+        30, // June
+        31, // July
+        31, // August
+        30, // September
+        31, // October
+        30, // November
+        31, // December
       ][month];
 
   /// Returns a new DateTime with the given number of months added.
   DateTime addToMonth(num months, {bool setToLastDay = true}) {
-    DateTime.january;
     DateTime returnDateTime = toUtc();
     if (months == 0) return this;
     if (months < 0) {

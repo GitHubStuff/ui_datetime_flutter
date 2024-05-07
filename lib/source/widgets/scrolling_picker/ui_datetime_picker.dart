@@ -113,7 +113,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    DateTimePickerTheme pickerTheme = DateTimePickerTheme.getTheme(context);
+    DateTimePickerTheme pickerTheme = DateTimePickerTheme.of(context);
     return Container(
       // Prevents the height from being zero which throws sizing error
       height: max(widget.size.height, 0.00000000001),

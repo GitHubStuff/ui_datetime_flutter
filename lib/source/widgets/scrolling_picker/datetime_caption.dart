@@ -11,7 +11,7 @@ class DateTimeCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AutoSizeText(
         caption,
-        style: DateTimePickerTheme.getTheme(context).marqueeStyle,
+        style: DateTimePickerTheme.of(context).marqueeStyle,
         maxLines: 1,
         minFontSize: 24,
       );

@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
 
+// Color Definitions
 const Color _textLight = Colors.white;
 const Color _textDark = Color(0xffFFEB3B);
-TextStyle _textStyle(Color color, double fontSize) => TextStyle(
+// Earth Theme
+const Color _pickerBackgroundLightEarth = Color(0xFFe2725b);
+const Color _pickerBackgroundDarkEarth = Color(0xFFCB4F3A);
+const Color _dateBackgroundLightEarth = Color(0xffFFEB3B);
+const Color _dateBackgroundDarkEarth = Color(0xff394D2E);
+const Color _timeBackgroundLightEarth = Color(0xffF4DECB);
+const Color _timeBackgroundDarkEarth = Color(0xff5A4E44);
+// Industrial Theme
+const Color _pickerBackgroundLightIndustrial = Color(0xFF2A3439);
+const Color _pickerBackgroundDarkIndustrial = Color(0xFF222222);
+const Color _dateBackgroundLightIndustrial = Color(0xff333840);
+const Color _dateBackgroundDarkIndustrial = Color(0xff191970);
+const Color _timeBackgroundLightIndustrial = Color(0xff4682B4);
+const Color _timeBackgroundDarkIndustrial = Color(0xff1A1A1A);
+
+TextStyle _createTextStyle(Color color, double fontSize) => TextStyle(
       color: color,
       fontSize: fontSize,
       fontWeight: FontWeight.bold,
@@ -11,48 +27,49 @@ TextStyle _textStyle(Color color, double fontSize) => TextStyle(
 
 class DateTimePickerTheme extends ThemeExtension<DateTimePickerTheme> {
   factory DateTimePickerTheme.lightEarth() => DateTimePickerTheme(
-        pickerBackground: const Color(0xffe2725b),
-        dateBackground: const Color(0xffFFEB3B),
-        timeBackground: const Color(0xffF4DECB),
-        marqueeStyle: _textStyle(_textLight, 20),
-        headerStyle: _textStyle(_textLight, 24),
-        spinerStyle: _textStyle(_textLight, 18),
+        pickerBackground: _pickerBackgroundLightEarth,
+        dateBackground: _dateBackgroundLightEarth,
+        timeBackground: _timeBackgroundLightEarth,
+        marqueeStyle: _createTextStyle(_textLight, 20),
+        headerStyle: _createTextStyle(_textLight, 24),
+        spinerStyle: _createTextStyle(_textLight, 18),
       );
 
   factory DateTimePickerTheme.darkEarth() => DateTimePickerTheme(
-        pickerBackground: const Color(0xffCB4F3A),
-        dateBackground: const Color(0xff394D2E),
-        timeBackground: const Color(0xff5A4E44),
-        marqueeStyle: _textStyle(_textDark, 20),
-        headerStyle: _textStyle(_textDark, 24),
-        spinerStyle: _textStyle(_textDark, 18),
+        pickerBackground: _pickerBackgroundDarkEarth,
+        dateBackground: _dateBackgroundDarkEarth,
+        timeBackground: _timeBackgroundDarkEarth,
+        marqueeStyle: _createTextStyle(_textDark, 20),
+        headerStyle: _createTextStyle(_textDark, 24),
+        spinerStyle: _createTextStyle(_textDark, 18),
       );
 
   factory DateTimePickerTheme.lightIndustrial() => DateTimePickerTheme(
-        pickerBackground: const Color(0xff2A3439),
-        dateBackground: const Color(0xff333840),
-        timeBackground: const Color(0xff4682B4),
-        marqueeStyle: _textStyle(_textLight, 20),
-        headerStyle: _textStyle(_textLight, 24),
-        spinerStyle: _textStyle(_textLight, 18),
+        pickerBackground: _pickerBackgroundLightIndustrial,
+        dateBackground: _dateBackgroundLightIndustrial,
+        timeBackground: _timeBackgroundLightIndustrial,
+        marqueeStyle: _createTextStyle(_textLight, 20),
+        headerStyle: _createTextStyle(_textLight, 24),
+        spinerStyle: _createTextStyle(_textLight, 18),
       );
 
   factory DateTimePickerTheme.darkIndustrial() => DateTimePickerTheme(
-        pickerBackground: const Color(0xff222222),
-        dateBackground: const Color(0xff191970),
-        timeBackground: const Color(0xff1A1A1A),
-        marqueeStyle: _textStyle(_textDark, 20),
-        headerStyle: _textStyle(_textDark, 24),
-        spinerStyle: _textStyle(_textDark, 18),
+        pickerBackground: _pickerBackgroundDarkIndustrial,
+        dateBackground: _dateBackgroundDarkIndustrial,
+        timeBackground: _timeBackgroundDarkIndustrial,
+        marqueeStyle: _createTextStyle(_textDark, 20),
+        headerStyle: _createTextStyle(_textDark, 24),
+        spinerStyle: _createTextStyle(_textDark, 18),
       );
 
-  factory DateTimePickerTheme.getTheme(BuildContext context) {
+  static DateTimePickerTheme of(BuildContext context) {
     DateTimePickerTheme? theme = context.theme.extension<DateTimePickerTheme>();
     if (theme != null) return theme;
     return context.theme.brightness == Brightness.dark
         ? DateTimePickerTheme.darkIndustrial()
         : DateTimePickerTheme.lightIndustrial();
   }
+
   final Color pickerBackground;
   final Color dateBackground;
   final Color timeBackground;
@@ -90,18 +107,16 @@ class DateTimePickerTheme extends ThemeExtension<DateTimePickerTheme> {
   @override
   DateTimePickerTheme lerp(
       ThemeExtension<DateTimePickerTheme>? other, double t) {
-    if (other == null) return this;
-    if (other is DateTimePickerTheme) {
-      return DateTimePickerTheme(
-        pickerBackground:
-            Color.lerp(pickerBackground, other.pickerBackground, t)!,
-        dateBackground: Color.lerp(dateBackground, other.dateBackground, t)!,
-        timeBackground: Color.lerp(timeBackground, other.timeBackground, t)!,
-        marqueeStyle: TextStyle.lerp(marqueeStyle, other.marqueeStyle, t)!,
-        headerStyle: TextStyle.lerp(headerStyle, other.headerStyle, t)!,
-        spinerStyle: TextStyle.lerp(spinerStyle, other.spinerStyle, t)!,
-      );
-    }
-    return this;
+    if (other is! DateTimePickerTheme) return this;
+
+    return DateTimePickerTheme(
+      pickerBackground:
+          Color.lerp(pickerBackground, other.pickerBackground, t)!,
+      dateBackground: Color.lerp(dateBackground, other.dateBackground, t)!,
+      timeBackground: Color.lerp(timeBackground, other.timeBackground, t)!,
+      marqueeStyle: TextStyle.lerp(marqueeStyle, other.marqueeStyle, t)!,
+      headerStyle: TextStyle.lerp(headerStyle, other.headerStyle, t)!,
+      spinerStyle: TextStyle.lerp(spinerStyle, other.spinerStyle, t)!,
+    );
   }
 }

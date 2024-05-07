@@ -1,6 +1,6 @@
 name: ui_datetime_flutter
 description: "Presetns a date/time picker as scroll wheels."
-version: 0.0.2+0
+version: 0.0.2+1
 home_page: http://www.icodeforyou.com
 publish_to: none # Remove this line if you wish to publish to pub.dev
 

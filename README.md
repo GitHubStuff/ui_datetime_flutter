@@ -22,11 +22,19 @@ A super enhanced ```Duration()``` class that includes, years, months, days, hour
 
 See [README_DateTimeInterval.md](README_DateTimeInterval.md) for details.
 
+#### DateTimePickerTheme
+
+The ```UIDateTimePicker``` uses a custom theme *DateTimePickerTheme*, to control the background colors of the spinners, the headers, and the text.
+
+See [README_DateTimePickerTheme.md](README_DateTimePickerTheme.md), for details and how to create custom themes.
+
+***NOTE:*** *Industrial* is the default.
+
 ### Constants
 
 #### DT
 
-A raper class (DT) for constants used in Duration, Amounts, and toLocal() and toUTC() creation.
+A rapper class (DT) for constants used in Duration, Amounts, and toLocal() and toUTC() creation.
 
 See [README_DT.md](README_DT.md) for details.
 
