@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 import '../classes/datetime_interval.dart';
@@ -30,40 +32,32 @@ extension DateTimeExt on DateTime {
         31, // December
       ][month];
 
-  /// Returns a new DateTime with the given number of months added.
-  DateTime addToMonth(num months, {bool setToLastDay = true}) {
-    DateTime returnDateTime = toUtc();
-    if (months == 0) return this;
-    if (months < 0) {
-      while (months < 0) {
-        months++;
-        returnDateTime = returnDateTime._subtractMonth(
-          returnDateTime,
-          setToLastDay: setToLastDay,
-        );
-      }
+  DateTime adjustMonth(int addedMonths, {bool setToLastDay = false}) {
+    int years = (month + addedMonths - 1) ~/ 12;
+    int newMonth = (month + addedMonths - 1) % 12 + 1;
+    int newYear = year + years;
+
+    if (setToLastDay) {
+      return DateTime.utc(newYear, newMonth + 1, 0, hour, minute, second,
+          millisecond, microsecond);
     } else {
-      while (months > 0) {
-        months--;
-        returnDateTime = returnDateTime._addMonth(
-          returnDateTime,
-          setToLastDay: setToLastDay,
-        );
-      }
+      int newDay = min(day, DateTime.utc(newYear, newMonth + 1, 0).day);
+      return DateTime.utc(newYear, newMonth, newDay, hour, minute, second,
+          millisecond, microsecond);
     }
-    return returnDateTime;
   }
 
-  /// Returns a new DateTime with the given number of years added.
-  DateTime addToYear(int years, {bool setToLastDay = true}) => addToMonth(
-        years * DateTime.monthsPerYear,
-        setToLastDay: setToLastDay,
-      );
+  DateTime addToMonth(int months, {bool setToLastDay = false}) =>
+      adjustMonth(months, setToLastDay: setToLastDay);
+
+  DateTime addToYear(int years, {bool setToLastDay = false}) =>
+      adjustMonth(years * 12, setToLastDay: setToLastDay);
 
   /// Returns the Interval between this DateTime and a target DateTime.
-  DateTimeInterval interval(
-          {DateTime? targetDateTime,
-          DateTimeUnit roundedTo = DateTimeUnit.year}) =>
+  DateTimeInterval interval({
+    DateTime? targetDateTime,
+    DateTimeUnit roundedTo = DateTimeUnit.year,
+  }) =>
       DateTimeInterval(
         startEvent: this,
         endEvent: targetDateTime ?? DateTime.now(),
@@ -76,15 +70,32 @@ extension DateTimeExt on DateTime {
   /// Returns true/false if the DateTime is the last day of the month.
   bool isLastDayOfMonth() => day == daysInMonth;
 
-  /// Returns a new DateTime representing the next interval based on DateTimeUnit.
-  DateTime nextInterval(
-          {required DateTimeUnit onType, bool setToLastDay = true}) =>
-      _updateInterval(onType: onType, setToLastDay: setToLastDay, amount: 1);
+  DateTime updateInterval(DateTimeUnit onType, int amount,
+      {bool setToLastDay = false}) {
+    switch (onType) {
+      case DateTimeUnit.year:
+        return addToYear(amount, setToLastDay: setToLastDay);
+      case DateTimeUnit.month:
+        return addToMonth(amount, setToLastDay: setToLastDay);
+      default:
+        return add(Duration(
+          days: onType == DateTimeUnit.day ? amount : 0,
+          hours: onType == DateTimeUnit.hour ? amount : 0,
+          minutes: onType == DateTimeUnit.minute ? amount : 0,
+          seconds: onType == DateTimeUnit.second ? amount : 0,
+          milliseconds: onType == DateTimeUnit.msec ? amount : 0,
+          microseconds: onType == DateTimeUnit.usec ? amount : 0,
+        ));
+    }
+  }
 
-  /// Returns a new DateTime representing the previous interval based on DateTimeUnit.
+  DateTime nextInterval(
+          {required DateTimeUnit onType, bool setToLastDay = false}) =>
+      updateInterval(onType, 1, setToLastDay: setToLastDay);
+
   DateTime previousInterval(
-          {required DateTimeUnit onType, bool setToLastDay = true}) =>
-      _updateInterval(onType: onType, setToLastDay: setToLastDay, amount: -1);
+          {required DateTimeUnit onType, bool setToLastDay = false}) =>
+      updateInterval(onType, -1, setToLastDay: setToLastDay);
 
   /// Truncates the DateTime to the specified DateTimeUnit precision.
   DateTime truncate({DateTimeUnit atDateTimeUnit = DateTimeUnit.second}) {
@@ -99,69 +110,6 @@ extension DateTimeExt on DateTime {
       skipUnits.contains(DateTimeUnit.second) ? 0 : second,
       skipUnits.contains(DateTimeUnit.msec) ? 0 : millisecond,
       skipUnits.contains(DateTimeUnit.usec) ? 0 : microsecond,
-    );
-  }
-
-  DateTime _updateInterval(
-      {required DateTimeUnit onType,
-      required bool setToLastDay,
-      required int amount}) {
-    switch (onType) {
-      case DateTimeUnit.year:
-        return addToYear(amount, setToLastDay: setToLastDay);
-      case DateTimeUnit.month:
-        return addToMonth(amount, setToLastDay: setToLastDay);
-      case DateTimeUnit.day:
-        return add(Duration(days: amount));
-      case DateTimeUnit.hour:
-        return add(Duration(hours: amount));
-      case DateTimeUnit.minute:
-        return add(Duration(minutes: amount));
-      case DateTimeUnit.second:
-        return add(Duration(seconds: amount));
-      case DateTimeUnit.msec:
-        return add(Duration(milliseconds: amount));
-      case DateTimeUnit.usec:
-        return add(Duration(microseconds: amount));
-    }
-  }
-
-  DateTime _addMonth(DateTime start, {bool setToLastDay = true}) {
-    int newMonth = start.month + 1;
-    final int newYear =
-        start.year + (newMonth > DateTime.monthsPerYear ? 1 : 0);
-    newMonth = newMonth > DateTime.monthsPerYear ? DateTime.january : newMonth;
-    setToLastDay = setToLastDay && start.day == start.daysInMonth;
-    int newDay =
-        setToLastDay ? DateTime(newYear, newMonth + 1, 0).day : start.day;
-
-    return DateTime.utc(
-      newYear,
-      newMonth,
-      newDay,
-      start.hour,
-      start.minute,
-      start.second,
-      start.millisecond,
-      start.microsecond,
-    );
-  }
-
-  DateTime _subtractMonth(DateTime back, {bool setToLastDay = true}) {
-    int newMonth = back.month - 1;
-    final int newYear = newMonth < DateTime.january ? back.year - 1 : back.year;
-    newMonth = newMonth < DateTime.january ? DateTime.monthsPerYear : newMonth;
-    final int newDay =
-        setToLastDay ? DateTime(newYear, newMonth + 1, 0).day : back.day;
-    return DateTime.utc(
-      newYear,
-      newMonth,
-      newDay,
-      back.hour,
-      back.minute,
-      back.second,
-      back.millisecond,
-      back.microsecond,
     );
   }
 }
