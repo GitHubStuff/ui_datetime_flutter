@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
       routerDelegate: Modular.routerDelegate,
       title: 'Flutter Demo',
       theme: ThemeData.light().copyWith(
-        extensions: [DateTimePickerTheme.light()],
+        extensions: [DateTimePickerTheme.lightEarth()],
       ),
-      darkTheme:
-          ThemeData.dark().copyWith(extensions: [DateTimePickerTheme.dark()]),
-      themeMode: ThemeMode.system,
+      darkTheme: ThemeData.dark()
+          .copyWith(extensions: [DateTimePickerTheme.darkEarth()]),
+      themeMode: ThemeMode.dark,
       localizationsDelegates: const [],
       // Use a BlocProvider to provide the UIThemeModeCubit to the widget tree.
       builder: (context, routerBuilder) => MultiBlocProvider(

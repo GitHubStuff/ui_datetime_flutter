@@ -14,13 +14,6 @@ void main() {
       expect(DateTimeUnit.usec.next, equals(null)); // Last item returns itself
     });
 
-//TODO: Consider removing
-    // test('checkPrecision throws ArgumentError for excluded units', () {
-    //   expect(() => DateTimeUnit.msec.checkPrecision(), throwsArgumentError);
-    //   expect(() => DateTimeUnit.usec.checkPrecision(), throwsArgumentError);
-    //   expect(() => DateTimeUnit.second.checkPrecision(), returnsNormally);
-    // });
-
     test('setFrom returns correct set of DateTimeUnits', () {
       expect(
           DateTimeUnit.year.sublist(),
