@@ -113,17 +113,17 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    DateTimePickerTheme pickerTheme = DateTimePickerTheme.of(context);
+    DateTimeThemeData pickerData = DateTimePickerTheme.of(context);
     return Container(
       // Prevents the height from being zero which throws sizing error
       height: max(widget.size.height, 0.00000000001),
       width: widget.size.width,
       color: Colors.transparent,
-      child: _column(pickerTheme), //pickers(context),
+      child: _column(pickerData), //pickers(context),
     );
   }
 
-  Widget _column(DateTimePickerTheme pickerTheme) {
+  Widget _column(DateTimeThemeData pickerTheme) {
     return Column(
       children: [
         Flexible(flex: 4, child: _buildTitle(pickerTheme)),
@@ -133,7 +133,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
     );
   }
 
-  Widget _buildTitle(DateTimePickerTheme pickerTheme) {
+  Widget _buildTitle(DateTimeThemeData pickerTheme) {
     return Container(
       color: pickerTheme.pickerBackground,
       height: 44.0,
@@ -161,7 +161,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
     );
   }
 
-  Widget _buildDateTimeSelectionButtons(DateTimePickerTheme pickerTheme) {
+  Widget _buildDateTimeSelectionButtons(DateTimeThemeData pickerTheme) {
     return SizedBox(
       height: 44.0,
       child: Row(
@@ -190,7 +190,7 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
     );
   }
 
-  Widget _buildPickerWheels(DateTimePickerTheme pickerTheme) {
+  Widget _buildPickerWheels(DateTimeThemeData pickerTheme) {
     return Stack(
       children: [
         IgnorePointer(

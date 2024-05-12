@@ -1,4 +1,4 @@
-# DateTimeInterval Utility Class
+# DateTimeDifference Utility Class
 
 A Dart utility class for calculating precise intervals between two DateTime objects, offering customizability with various time units and accounting for different date directions (e.g., past, present, future).
 
@@ -20,13 +20,13 @@ dependencies:
 
 ## Usage
 
-To use this utility, create an instance of `DateTimeInterval` by specifying the start and end DateTime objects, and optionally the smallest unit of time you are interested in.
+To use this utility, create an instance of `DateTimeDifference` by specifying the start and end DateTime objects, and optionally the smallest unit of time you are interested in.
 
 ```dart
 import 'package:ui_datetime_flutter/date_time_interval.dart';
 
 void main() {
-  DateTimeInterval interval = DateTimeInterval(
+  DateTimeDifference interval = DateTimeDifference(
     startEvent: DateTime(2023, 1, 15),
     endEvent: DateTime(2024, 1, 15),
     firstDateTimeUnit: DateTimeUnit.month,
@@ -37,7 +37,7 @@ void main() {
 
 ## Documentation
 
-The DateTimeInterval class allows for flexible date interval calculation:
+The DateTimeDifference class allows for flexible date interval calculation:
 
 ### Parameters
 

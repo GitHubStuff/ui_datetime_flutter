@@ -24,7 +24,7 @@ class _SampleDateTimeWidget extends State<SampleDateTimeWidget> {
           initialDateTime: DateTime.now(),
           onSelected: (dateTime) {
             setState(() {
-              final str = dateTime?.toIso8601String() ?? 'No Date Selected';
+              final str = dateTime?.formatted() ?? 'No Date Selected';
               prompt = Text(str, style: const TextStyle(fontSize: 21));
             });
           },
@@ -39,9 +39,9 @@ class _SampleDateTimeWidget extends State<SampleDateTimeWidget> {
                 dateTime: DateTime.now(),
                 offset: const Offset(0, -180),
               ),
-            );
+            ) as DateTime?;
             if (dateTime != null) {
-              setState(() => content = dateTime.toIso8601String());
+              setState(() => content = dateTime.formatted());
             }
           },
           child: Text(content),

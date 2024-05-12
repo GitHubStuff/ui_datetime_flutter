@@ -16,11 +16,11 @@ dependencies:
 
 ### Classes
 
-#### DateTimeInterval
+#### DateTimeDifference
 
 A super enhanced ```Duration()``` class that includes, years, months, days, hours, minutes, seconds, mseconds, useconds.
 
-See [README_DateTimeInterval.md](README_DateTimeInterval.md) for details.
+See [README_DateTimeDifference.md](README_DateTimeDifference.md) for details.
 
 #### DateTimePickerTheme
 

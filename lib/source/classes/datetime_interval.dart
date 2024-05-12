@@ -8,7 +8,7 @@ import '../extensions/datetime_num.dart';
 /// A utility class for calculating the interval between two DateTime objects.
 
 ///
-/// The [DateTimeInterval] class calculates the interval between two DateTime objects
+/// The [DateTimeDifference] class calculates the interval between two DateTime objects
 /// with customizable precision, including [years], [months], days, hours, minutes,
 /// seconds, milliseconds, and microseconds. It takes into account the direction
 /// of the interval, whether it's "before," "now," or "after" the startDateTime.
@@ -16,7 +16,7 @@ import '../extensions/datetime_num.dart';
 /// Example usage:
 ///
 /// ```dart
-/// DateTimeInterval interval = DateTimeInterval(
+/// DateTimeDifference interval = DateTimeDifference(
 ///   startEvent: DateTime(2023, 1, 15),
 ///   endEvent: DateTime(2024, 1, 15),
 ///   firstDateTimeUnit: DateTimeUnit.month,
@@ -24,7 +24,7 @@ import '../extensions/datetime_num.dart';
 /// print(interval.toString()); // "12 months"
 /// ```
 
-class DateTimeInterval {
+class DateTimeDifference {
   late final DateTime finishDateTime;
   late final DateTime startDateTime;
   late final num? years;
@@ -38,12 +38,12 @@ class DateTimeInterval {
   late final DateTimeOrdering direction;
   late final Set<DateTimeUnit> fieldSet;
 
-  /// Creates a DateTimeInterval instance.
+  /// Creates a DateTimeDifference instance.
   ///
   /// - [startEvent]: The starting DateTime for the interval.
   /// - [endEvent]: The ending DateTime for the interval.
   /// - [firstDateTimeUnit]: Where the interval value  (default is DateTimeUnit.year).
-  DateTimeInterval({
+  DateTimeDifference({
     required DateTime startEvent,
     required DateTime endEvent,
     DateTimeUnit firstDateTimeUnit = DateTimeUnit.year,

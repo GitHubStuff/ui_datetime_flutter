@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
 void main() {
-  group('DateTimeInterval Tests', () {
+  group('DateTimeDifference Tests', () {
     test('Exact same datetime', () {
       DateTime sameDateTime = DateTime.now();
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: sameDateTime,
         endEvent: sameDateTime,
       );
@@ -15,7 +15,7 @@ void main() {
     test('One year difference', () {
       DateTime start = DateTime(2023, 1, 1);
       DateTime end = DateTime(2024, 1, 1);
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
         firstDateTimeUnit: DateTimeUnit.year,
@@ -26,7 +26,7 @@ void main() {
     test('Negative interval (end before start)', () {
       DateTime start = DateTime(2024, 1, 1);
       DateTime end = DateTime(2023, 1, 1);
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
       );
@@ -37,7 +37,7 @@ void main() {
     test('Mixed units interval', () {
       DateTime start = DateTime(2021, 3, 15, 12, 30, 45);
       DateTime end = DateTime(2023, 6, 20, 14, 45, 50);
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
         firstDateTimeUnit: DateTimeUnit.month,
@@ -50,7 +50,7 @@ void main() {
     test('Leap year day count', () {
       DateTime start = DateTime(2020, 2, 28);
       DateTime end = DateTime(2020, 3, 1);
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
       );
@@ -60,7 +60,7 @@ void main() {
     test('Leap year day count to non-leap year', () {
       DateTime start = DateTime(2020, 2, 28);
       DateTime end = DateTime(2021, 3, 1);
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
       );
@@ -70,7 +70,7 @@ void main() {
     test('Time zone handling', () {
       DateTime start = DateTime.utc(2023, 1, 1, 5); // UTC time
       DateTime end = DateTime.utc(2023, 1, 1, 8); // UTC time
-      DateTimeInterval interval = DateTimeInterval(
+      DateTimeDifference interval = DateTimeDifference(
         startEvent: start,
         endEvent: end,
       );
@@ -78,10 +78,10 @@ void main() {
           equals(3)); // Time difference should be calculated correctly in UTC
     });
   });
-  test('DateTimeInterval calculates interval correctly', () {
+  test('DateTimeDifference calculates interval correctly', () {
     final startEvent = DateTime(2023, 1, 15);
     final endEvent = DateTime(2024, 1, 15);
-    final interval = DateTimeInterval(
+    final interval = DateTimeDifference(
         startEvent: startEvent,
         endEvent: endEvent,
         firstDateTimeUnit: DateTimeUnit.year);
@@ -96,10 +96,10 @@ void main() {
     expect(interval.usecs, equals(0));
   });
 
-  test('DateTimeInterval returns correct string representation', () {
+  test('DateTimeDifference returns correct string representation', () {
     final startEvent = DateTime(2023, 1, 15);
     final endEvent = DateTime(2024, 1, 15);
-    final interval = DateTimeInterval(
+    final interval = DateTimeDifference(
         startEvent: startEvent,
         endEvent: endEvent,
         firstDateTimeUnit: DateTimeUnit.month);

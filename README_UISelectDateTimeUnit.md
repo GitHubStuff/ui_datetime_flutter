@@ -17,7 +17,7 @@ millisecond, or microsecond. It provides radio buttons for each DateTimeUnit opt
 ```dart
 UISelectDateTimeUnit(
   initialUnit: DateTimeUnit.year,
-  onChanged: (unit) {
+  onChanged: (DateTimeUnit unit) {
     print('Selected DateTimeUnit: $unit');
   },
   showMillsecond: true,

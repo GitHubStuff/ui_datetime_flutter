@@ -54,11 +54,11 @@ extension DateTimeExt on DateTime {
       adjustMonth(years * 12, setToLastDay: setToLastDay);
 
   /// Returns the Interval between this DateTime and a target DateTime.
-  DateTimeInterval interval({
+  DateTimeDifference interval({
     DateTime? targetDateTime,
     DateTimeUnit roundedTo = DateTimeUnit.year,
   }) =>
-      DateTimeInterval(
+      DateTimeDifference(
         startEvent: this,
         endEvent: targetDateTime ?? DateTime.now(),
         firstDateTimeUnit: roundedTo,

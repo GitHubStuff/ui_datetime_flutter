@@ -7,47 +7,54 @@ import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
 class MockTimer extends Mock implements Timer {}
 
+const mockSystemDateTime = '2024-04-16T12:00:00.000Z';
+const String mockAlarmDateTime = '2024-04-16T12:00:05.000Z';
+
 void main() {
   group('RepeatingAlarmCubit', () {
-    late RepeatingAlarmCubit cubit;
-    late MockTimer mockTimer;
-    late DateTime fixedCurrentTime;
+    late AlarmCubit cubit;
+    late FakeSystemDateTime fakeDateTime;
+    final alarmDateTime = DateTime.parse(mockAlarmDateTime);
+    final systemDateTime = DateTime.parse(mockSystemDateTime);
 
     setUp(() {
-      mockTimer = MockTimer();
-      fixedCurrentTime = DateTime.parse("2024-04-16T12:00:00Z");
-      when(() => mockTimer.cancel()).thenReturn(null);
-
-      // Mocking DateTime.now to control time in tests
-      cubit = RepeatingAlarmCubit(
-        alarmDateTime: fixedCurrentTime.add(const Duration(minutes: 5)),
-        repeatInterval: const Duration(minutes: 5),
-      );
+      fakeDateTime = FakeSystemDateTime(DateTime.parse(mockSystemDateTime));
+      cubit = AlarmCubit(fakeDateTime);
     });
 
     tearDown(() {
       cubit.close();
+      fakeDateTime.shutDown();
     });
 
     test('initial state is RepeatingAlarmInitial', () {
-      expect(cubit.state, const RepeatingAlarmInitial());
+      expect(cubit.state, AlarmInitial(cubit.state.dateTime));
     });
 
-    blocTest<RepeatingAlarmCubit, RepeatingAlarmState>(
+    blocTest<AlarmCubit, AlarmState>(
       'emits RepeatingAlarmTriggered when startAlarm is called and time is up',
       build: () => cubit,
-      act: (cubit) => cubit.startAlarm(),
-      expect: () => const [RepeatingAlarmTriggered()],
+      act: (cubit) {
+        cubit.setAlarm(toDateTime: alarmDateTime);
+        cubit.turnOnAlarm();
+      },
+      verify: (_) {
+        expect(cubit.state.dateTime.isAfter(systemDateTime), true);
+      },
     );
 
-    blocTest<RepeatingAlarmCubit, RepeatingAlarmState>(
+    blocTest<AlarmCubit, AlarmState>(
       'emits RepeatingAlarmStopped when stopAlarm is called',
       build: () => cubit,
-      act: (cubit) {
-        cubit.startAlarm();
-        cubit.stopAlarm();
+      act: (cubit) async {
+        cubit.setAlarm(toDateTime: alarmDateTime);
+        await Future.delayed(const Duration(seconds: 5));
+        cubit.turnOnAlarm();
       },
-      expect: () => const [RepeatingAlarmTriggered(), RepeatingAlarmStopped()],
+      verify: (cubit) {
+        expect(cubit.state, isA<AlarmOff>());
+      },
+      expect: () => [AlarmSet(alarmDateTime), AlarmOff(fakeDateTime.now)],
     );
   });
 }
