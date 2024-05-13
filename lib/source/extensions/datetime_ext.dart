@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:intl/intl.dart';
 
-import '../classes/datetime_interval.dart';
+import '../classes/datetime_difference.dart';
 import '../constants/dt.dart';
 import '../enums/datetime_unit.dart';
 

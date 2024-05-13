@@ -1,6 +1,6 @@
 library ui_datetime_flutter;
 
-export 'source/classes/datetime_interval.dart';
+export 'source/classes/datetime_difference.dart';
 export 'source/classes/datetime_picker_theme.dart';
 export 'source/classes/datetime_theme_data.dart';
 export 'source/constants/dt.dart';
