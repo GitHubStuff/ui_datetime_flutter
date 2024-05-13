@@ -25,7 +25,7 @@ class FakeSystemDateTime implements SystemDateTime {
   Timer? _timer;
 
   FakeSystemDateTime(this.dateTime) {
-    _timer = Timer.periodic(const Duration(milliseconds: 500), (_) {
+    _timer = Timer.periodic(const Duration(milliseconds: 1000), (_) {
       _addSeconds++;
       debugPrint('seconds added: $_addSeconds');
     });
