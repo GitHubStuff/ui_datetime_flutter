@@ -17,14 +17,14 @@ import '../enums/datetime_unit.dart';
 class UISelectDateTimeUnit extends StatefulWidget {
   final DateTimeUnit initialUnit;
   final ValueChanged<DateTimeUnit> onChanged;
-  final bool showMillsecond;
+  final bool showMillisecond;
   final bool showMicroSecond;
 
   const UISelectDateTimeUnit({
     super.key,
     required this.initialUnit,
     required this.onChanged,
-    this.showMillsecond = false,
+    this.showMillisecond = false,
     this.showMicroSecond = false,
   });
 
@@ -43,7 +43,7 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
 
   @override
   Widget build(BuildContext context) {
-    final showMillisecond = widget.showMillsecond || widget.showMicroSecond;
+    final showMillisecond = widget.showMillisecond || widget.showMicroSecond;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -55,7 +55,7 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
           if (showMillisecond)
             _buildRow(
               [
-                if (widget.showMillsecond) DateTimeUnit.msec,
+                if (showMillisecond) DateTimeUnit.msec,
                 if (widget.showMicroSecond) DateTimeUnit.usec,
               ],
             ),
@@ -65,10 +65,19 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
   }
 
   Widget _buildRow(List<DateTimeUnit> units) {
-    return Row(
+    var result = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: units.map((unit) => _buildRadioButton(unit)).toList(),
     );
+    // if (result.children.length == 2) {
+    //   result = Row(
+    //     mainAxisAlignment: MainAxisAlignment.start,
+    //     children: [
+    //       result..children,
+    //     ],
+    //   );
+    // }
+    return result;
   }
 
   Widget _buildRadioButton(DateTimeUnit value) {
