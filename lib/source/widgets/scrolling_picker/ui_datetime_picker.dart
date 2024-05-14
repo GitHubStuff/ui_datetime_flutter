@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ui_aqua_button_flutter/ui_aqua_button_flutter.dart';
 import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
-import 'package:ui_marquee_flutter/ui_marguee_flutter.dart';
 
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
+import 'package:ui_marquee_flutter/ui_marquee_flutter.dart';
 
 import 'ui_date_picker_wheel.dart';
 import 'ui_timer_picker_wheel.dart';
