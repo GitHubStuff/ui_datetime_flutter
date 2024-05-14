@@ -39,7 +39,7 @@ class HomeScaffold extends StatelessWidget {
           const Gap(5),
           ElevatedButton(
             onPressed: () {
-              DateTimeToast().show(
+              DateTimeToast.show(
                 message: "Toast Example",
                 dateTime: DateTime(2024, 1, 15, 14, 30),
                 duration: const Duration(seconds: 3),
@@ -52,7 +52,7 @@ class HomeScaffold extends StatelessWidget {
           UISelectDateTimeUnit(
             initialUnit: DateTimeUnit.month,
             onChanged: (unit) {
-              DateTimeToast().show(
+              DateTimeToast.show(
                 message: 'Selected unit: $unit',
                 dateTime: DateTime(2024, 1, 15, 14, 30),
                 duration: const Duration(seconds: 1),
@@ -62,7 +62,7 @@ class HomeScaffold extends StatelessWidget {
           ),
           const Gap(5),
           UIDateTimePicker(
-              onDateTimeSelected: (dateTime) => DateTimeToast().show(
+              onDateTimeSelected: (dateTime) => DateTimeToast.show(
                     message: 'Selected unit: ${dateTime.formatted()}',
                     dateTime: DateTime(2024, 1, 15, 14, 30),
                     duration: const Duration(seconds: 4),

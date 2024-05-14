@@ -1,21 +1,18 @@
 import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ui_aqua_button_flutter/ui_aqua_button_flutter.dart';
-import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
-
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
+import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
 import 'package:ui_marquee_flutter/ui_marquee_flutter.dart';
 
 import 'ui_date_picker_wheel.dart';
-import 'ui_timer_picker_wheel.dart';
+import 'ui_time_picker_wheel.dart';
 
 part 'datetime_caption.dart';
 
 const Size kDateTimePickerSize = Size(230, 250);
-
 const double _kItemExtent = 30.0;
 const Duration _kCrossFadeDuration = Duration(milliseconds: 500);
 const Widget _kDateButtonText = DateTimeCaption(caption: 'Date');
@@ -31,51 +28,26 @@ enum OpacityEnum {
   const OpacityEnum(this.value);
 }
 
-// Define a method to create MaterialColor
-MaterialColor createMaterialColor(Color color) {
-  List strengths = <double>[.05];
-  final Map<int, Color> swatch = {};
-  final int r = color.red, g = color.green, b = color.blue;
-
-  for (int i = 1; i < 10; i++) {
-    strengths.add(0.1 * i);
-  }
-  for (var strength in strengths) {
-    final double ds = 0.5 - strength;
-    swatch[(strength * 1000).round()] = Color.fromRGBO(
-      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
-      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
-      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
-      1,
-    );
-  }
-
-  return MaterialColor(color.value, swatch);
-}
-
 // Define myBlue using the darkest shade as the main color
 final MaterialColor myBlue = createMaterialColor(const Color(0xFF003366));
 
 /// A Flutter widget for selecting date and time.
 class UIDateTimePicker extends StatefulWidget {
-  // Constructor for UICalendarFlutter
+  // Constructor for UIDateTimePicker
   UIDateTimePicker({
     super.key,
     required this.onDateTimeSelected,
     DateTime? dateTime,
     DateFormat? dateFormat,
     this.dateText = _kDateButtonText,
-    this.acceptButton = const AquaButton(
-      radius: 22.0,
-      materialColor: Colors.blue,
-    ),
+    this.acceptButton =
+        const AquaButton(radius: 22.0, materialColor: Colors.blue),
     this.showFirstWidget = true,
     this.size = kDateTimePickerSize,
     this.timeText = _kTimeButtonText,
   })  : dateTime = dateTime ?? DateTime.now(),
         dateFormat = dateFormat ?? DateFormat(DT.kDateTimeFormat);
 
-  // Properties of the UICalendarFlutter widget
   final DateTime dateTime;
   final Function(DateTime) onDateTimeSelected;
   final bool showFirstWidget;
@@ -86,25 +58,17 @@ class UIDateTimePicker extends StatefulWidget {
   final Widget timeText;
 
   @override
-  State<UIDateTimePicker> createState() => _UIDateTimePicker();
+  State<UIDateTimePicker> createState() => _UIDateTimePickerState();
 }
 
-/// State class for UICalendarFlutter widget.
-class _UIDateTimePicker extends State<UIDateTimePicker> {
+class _UIDateTimePickerState extends State<UIDateTimePicker> {
   late DateTime dateTime;
   late bool showFirstWidget;
 
   @override
   void initState() {
     super.initState();
-    // Initialize dateTime and showFirstWidget variables
     dateTime = widget.dateTime.copyWith(
-      year: widget.dateTime.year,
-      month: widget.dateTime.month,
-      day: widget.dateTime.day,
-      hour: widget.dateTime.hour,
-      minute: widget.dateTime.minute,
-      second: widget.dateTime.second,
       millisecond: 0,
       microsecond: 0,
     );
@@ -115,15 +79,14 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
   Widget build(BuildContext context) {
     DateTimeThemeData pickerData = DateTimePickerTheme.of(context);
     return Container(
-      // Prevents the height from being zero which throws sizing error
       height: max(widget.size.height, 0.00000000001),
       width: widget.size.width,
       color: Colors.transparent,
-      child: _column(pickerData), //pickers(context),
+      child: _buildColumn(pickerData),
     );
   }
 
-  Widget _column(DateTimeThemeData pickerTheme) {
+  Widget _buildColumn(DateTimeThemeData pickerTheme) {
     return Column(
       children: [
         Flexible(flex: 4, child: _buildTitle(pickerTheme)),
@@ -206,16 +169,13 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
               pickerItemExtent: _kItemExtent,
               textStyle: pickerTheme.spinerStyle,
               onDateSelected: (DateTime newDateTime) {
-                setState(
-                  () => dateTime = dateTime.copyWith(
+                setState(() {
+                  dateTime = dateTime.copyWith(
                     year: newDateTime.year,
                     month: newDateTime.month,
                     day: newDateTime.day,
-                    hour: dateTime.hour,
-                    minute: dateTime.minute,
-                    second: dateTime.second,
-                  ),
-                );
+                  );
+                });
               },
             ),
           ),
@@ -232,16 +192,13 @@ class _UIDateTimePicker extends State<UIDateTimePicker> {
               backgroundColor: pickerTheme.timeBackground,
               textStyle: pickerTheme.spinerStyle,
               onTimeSelected: (DateTime newDateTime) {
-                setState(
-                  () => dateTime = dateTime.copyWith(
-                    year: dateTime.year,
-                    month: dateTime.month,
-                    day: dateTime.day,
+                setState(() {
+                  dateTime = dateTime.copyWith(
                     hour: newDateTime.hour,
                     minute: newDateTime.minute,
                     second: newDateTime.second,
-                  ),
-                );
+                  );
+                });
               },
             ),
           ),

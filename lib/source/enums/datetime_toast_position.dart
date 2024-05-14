@@ -4,7 +4,7 @@
 /// position of the toast notification, including top, center, and bottom.
 library;
 
-import 'package:oktoast/oktoast.dart' as ok;
+import 'package:oktoast/oktoast.dart' as ok_toast;
 
 enum DateTimeToastPosition {
   top,
@@ -12,14 +12,14 @@ enum DateTimeToastPosition {
   bottom;
 
   /// Converts the DateTimeToastPosition enum to the corresponding okToast.ToastPosition.
-  ok.ToastPosition get okToastPosition {
+  ok_toast.ToastPosition get okToastPosition {
     switch (this) {
       case top:
-        return ok.ToastPosition.top;
+        return ok_toast.ToastPosition.top;
       case center:
-        return ok.ToastPosition.center;
+        return ok_toast.ToastPosition.center;
       case bottom:
-        return ok.ToastPosition.bottom;
+        return ok_toast.ToastPosition.bottom;
     }
   }
 }

@@ -64,6 +64,7 @@ void main() {
         startEvent: start,
         endEvent: end,
       );
+
       expect(interval.years, equals(1));
       expect(interval.days, equals(1)); // 2020 is a leap year
     });
