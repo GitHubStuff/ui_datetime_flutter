@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values, omit_local_variable_types, prefer_final_locals, require_trailing_commas
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 

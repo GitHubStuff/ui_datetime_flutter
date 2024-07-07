@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:math';
 
 import 'package:intl/intl.dart';
@@ -6,7 +8,9 @@ import '../classes/datetime_difference.dart';
 import '../constants/dt.dart';
 import '../enums/datetime_unit.dart';
 
+/// An extension for the DateTime class providing additional functionality.
 extension DateTimeExt on DateTime {
+  /// Returns the local/utc DateTime as a formatted string.
   String formatted({
     String format = DT.kDateTimeFormat,
     bool asUtc = false,
@@ -32,18 +36,35 @@ extension DateTimeExt on DateTime {
         31, // December
       ][month];
 
+  /// Returns the DateTime with the specified DateTimeUnit precision.
   DateTime adjustMonth(int addedMonths, {bool setToLastDay = false}) {
-    int years = (month + addedMonths - 1) ~/ 12;
-    int newMonth = (month + addedMonths - 1) % 12 + 1;
-    int newYear = year + years;
+    final years = (month + addedMonths - 1) ~/ 12;
+    final newMonth = (month + addedMonths - 1) % 12 + 1;
+    final newYear = year + years;
 
     if (setToLastDay) {
-      return DateTime.utc(newYear, newMonth + 1, 0, hour, minute, second,
-          millisecond, microsecond);
+      return DateTime.utc(
+        newYear,
+        newMonth + 1,
+        0,
+        hour,
+        minute,
+        second,
+        millisecond,
+        microsecond,
+      );
     } else {
-      int newDay = min(day, DateTime.utc(newYear, newMonth + 1, 0).day);
-      return DateTime.utc(newYear, newMonth, newDay, hour, minute, second,
-          millisecond, microsecond);
+      final newDay = min(day, DateTime.utc(newYear, newMonth + 1, 0).day);
+      return DateTime.utc(
+        newYear,
+        newMonth,
+        newDay,
+        hour,
+        minute,
+        second,
+        millisecond,
+        microsecond,
+      );
     }
   }
 
@@ -70,36 +91,46 @@ extension DateTimeExt on DateTime {
   /// Returns true/false if the DateTime is the last day of the month.
   bool isLastDayOfMonth() => day == daysInMonth;
 
-  DateTime updateInterval(DateTimeUnit onType, int amount,
-      {bool setToLastDay = false}) {
+  DateTime updateInterval(
+    DateTimeUnit onType,
+    int amount, {
+    bool setToLastDay = false,
+  }) {
     switch (onType) {
       case DateTimeUnit.year:
         return addToYear(amount, setToLastDay: setToLastDay);
       case DateTimeUnit.month:
         return addToMonth(amount, setToLastDay: setToLastDay);
+      // ignore: no_default_cases
       default:
-        return add(Duration(
-          days: onType == DateTimeUnit.day ? amount : 0,
-          hours: onType == DateTimeUnit.hour ? amount : 0,
-          minutes: onType == DateTimeUnit.minute ? amount : 0,
-          seconds: onType == DateTimeUnit.second ? amount : 0,
-          milliseconds: onType == DateTimeUnit.msec ? amount : 0,
-          microseconds: onType == DateTimeUnit.usec ? amount : 0,
-        ));
+        return add(
+          Duration(
+            days: onType == DateTimeUnit.day ? amount : 0,
+            hours: onType == DateTimeUnit.hour ? amount : 0,
+            minutes: onType == DateTimeUnit.minute ? amount : 0,
+            seconds: onType == DateTimeUnit.second ? amount : 0,
+            milliseconds: onType == DateTimeUnit.msec ? amount : 0,
+            microseconds: onType == DateTimeUnit.usec ? amount : 0,
+          ),
+        );
     }
   }
 
-  DateTime nextInterval(
-          {required DateTimeUnit onType, bool setToLastDay = false}) =>
+  DateTime nextInterval({
+    required DateTimeUnit onType,
+    bool setToLastDay = false,
+  }) =>
       updateInterval(onType, 1, setToLastDay: setToLastDay);
 
-  DateTime previousInterval(
-          {required DateTimeUnit onType, bool setToLastDay = false}) =>
+  DateTime previousInterval({
+    required DateTimeUnit onType,
+    bool setToLastDay = false,
+  }) =>
       updateInterval(onType, -1, setToLastDay: setToLastDay);
 
   /// Truncates the DateTime to the specified DateTimeUnit precision.
   DateTime truncate({DateTimeUnit atDateTimeUnit = DateTimeUnit.second}) {
-    Set<DateTimeUnit> skipUnits = atDateTimeUnit.next?.sublist() ?? {};
+    final skipUnits = atDateTimeUnit.next?.sublist() ?? {};
     final m = isUtc ? DateTime.utc : DateTime.new;
     return m(
       skipUnits.contains(DateTimeUnit.year) ? 0 : year,

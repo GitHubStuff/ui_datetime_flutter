@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
+/// A sample widget that demonstrates the use of the UIDateTimePrompt and
 class SampleDateTimeWidget extends StatefulWidget {
+  /// Constructor for SampleDateTimeWidget.
   const SampleDateTimeWidget({super.key});
 
   @override
@@ -39,7 +41,7 @@ class _SampleDateTimeWidget extends State<SampleDateTimeWidget> {
                 dateTime: DateTime.now(),
                 offset: const Offset(0, -180),
               ),
-            ) as DateTime?;
+            );
             if (dateTime != null) {
               setState(() => content = dateTime.formatted());
             }

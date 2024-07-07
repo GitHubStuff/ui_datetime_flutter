@@ -3,26 +3,30 @@ import 'package:ui_extensions_flutter/ui_extensions_flutter.dart';
 
 import 'datetime_theme_data.dart';
 
+/// The theme for the DateTimePicker.
 class DateTimePickerTheme extends InheritedTheme {
+  /// Constructor for DateTimePickerTheme.
+  const DateTimePickerTheme({
+    required this.data,
+    required super.child,
+    super.key,
+  });
+
+  /// Constructor for DateTimePickerTheme.
   static DateTimeThemeData of(BuildContext context) {
     // Flutter feature: if a widget is the child of DateTimerPickerTheme, it will return use
     // that theme, otherwise it looks for DateTimeThemeData in a theme extention.
-    DateTimePickerTheme? theme =
+    final theme =
         context.dependOnInheritedWidgetOfExactType<DateTimePickerTheme>();
     if (theme != null) return theme.data;
-    DateTimeThemeData? data = context.theme.extension<DateTimeThemeData>();
+    final data = context.theme.extension<DateTimeThemeData>();
     return data ??
         (context.theme.brightness == Brightness.dark
             ? DateTimeThemeData.darkIndustrial()
             : DateTimeThemeData.lightIndustrial());
   }
 
-  const DateTimePickerTheme({
-    super.key,
-    required this.data,
-    required super.child,
-  });
-
+  /// The data for the DateTimePickerTheme.
   final DateTimeThemeData data;
 
   @override

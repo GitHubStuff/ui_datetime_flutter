@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'alarm_cubit.dart';
 
 @immutable
 sealed class AlarmState extends Equatable {
-  final DateTime dateTime;
   const AlarmState(this.dateTime);
+  final DateTime dateTime;
 
   @override
   List<Object> get props => [dateTime];

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 
 // Color Definitions
@@ -24,7 +26,18 @@ TextStyle _createTextStyle(Color color, double fontSize) => TextStyle(
       fontWeight: FontWeight.bold,
     );
 
+/// A class that defines the theme data for the DateTimePicker.
 class DateTimeThemeData extends ThemeExtension<DateTimeThemeData> {
+  const DateTimeThemeData({
+    required this.pickerBackground,
+    required this.dateBackground,
+    required this.timeBackground,
+    required this.marqueeStyle,
+    required this.headerStyle,
+    required this.spinerStyle,
+  });
+
+  /// Creates a DateTimeThemeData object using the light theme.
   factory DateTimeThemeData.lightEarth() => DateTimeThemeData(
         pickerBackground: _pickerBackgroundLightEarth,
         dateBackground: _dateBackgroundLightEarth,
@@ -34,6 +47,7 @@ class DateTimeThemeData extends ThemeExtension<DateTimeThemeData> {
         spinerStyle: _createTextStyle(_textLight, 18),
       );
 
+  /// Creates a DateTimeThemeData object using the dark theme.
   factory DateTimeThemeData.darkEarth() => DateTimeThemeData(
         pickerBackground: _pickerBackgroundDarkEarth,
         dateBackground: _dateBackgroundDarkEarth,
@@ -43,6 +57,7 @@ class DateTimeThemeData extends ThemeExtension<DateTimeThemeData> {
         spinerStyle: _createTextStyle(_textDark, 18),
       );
 
+  /// Creates a DateTimeThemeData object using the industrial theme.
   factory DateTimeThemeData.lightIndustrial() => DateTimeThemeData(
         pickerBackground: _pickerBackgroundLightIndustrial,
         dateBackground: _dateBackgroundLightIndustrial,
@@ -52,6 +67,7 @@ class DateTimeThemeData extends ThemeExtension<DateTimeThemeData> {
         spinerStyle: _createTextStyle(_textLight, 18),
       );
 
+  /// Creates a DateTimeThemeData object using the dark industrial theme.
   factory DateTimeThemeData.darkIndustrial() => DateTimeThemeData(
         pickerBackground: _pickerBackgroundDarkIndustrial,
         dateBackground: _dateBackgroundDarkIndustrial,
@@ -67,15 +83,6 @@ class DateTimeThemeData extends ThemeExtension<DateTimeThemeData> {
   final TextStyle marqueeStyle;
   final TextStyle headerStyle;
   final TextStyle spinerStyle;
-
-  const DateTimeThemeData({
-    required this.pickerBackground,
-    required this.dateBackground,
-    required this.timeBackground,
-    required this.marqueeStyle,
-    required this.headerStyle,
-    required this.spinerStyle,
-  });
 
   @override
   ThemeExtension<DateTimeThemeData> copyWith({

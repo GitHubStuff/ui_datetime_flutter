@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:intl/intl.dart';
 
 import '../constants/dt.dart';
@@ -5,20 +7,9 @@ import '../enums/datetime_ordering.dart';
 import '../enums/datetime_unit.dart';
 import '../extensions/datetime_num.dart';
 
+/// A class that calculates the difference between two DateTime objects.
 class DateTimeDifference {
-  late final DateTime finishDateTime;
-  late final DateTime startDateTime;
-  late final num? years;
-  late final num? months;
-  late final num? days;
-  late final num? hours;
-  late final num? minutes;
-  late final num? seconds;
-  late final num? msecs;
-  late final num? usecs;
-  late final DateTimeOrdering direction;
-  late final Set<DateTimeUnit> fieldSet;
-
+  /// Constructor for DateTimeDifference.
   DateTimeDifference({
     required DateTime startEvent,
     required DateTime endEvent,
@@ -36,7 +27,7 @@ class DateTimeDifference {
     endEvent = DT.makeUtc(endEvent);
 
     if (direction == DateTimeOrdering.before) {
-      DateTime temp = startEvent;
+      final temp = startEvent;
       startEvent = endEvent;
       endEvent = temp;
     }
@@ -87,6 +78,18 @@ class DateTimeDifference {
       microseconds: timeDifferences['microseconds'],
     );
   }
+  late final DateTime finishDateTime;
+  late final DateTime startDateTime;
+  late final num? years;
+  late final num? months;
+  late final num? days;
+  late final num? hours;
+  late final num? minutes;
+  late final num? seconds;
+  late final num? msecs;
+  late final num? usecs;
+  late final DateTimeOrdering direction;
+  late final Set<DateTimeUnit> fieldSet;
 
   Map<String, num> _calculateTimeDifferences(DateTime start, DateTime end) {
     return {
@@ -131,7 +134,7 @@ class DateTimeDifference {
     if (timeDifferences['days']! < 0) {
       timeDifferences['months'] = (timeDifferences['months'] ?? 0) - 1;
 
-      DateTime orderedDateTime = (direction == DateTimeOrdering.before)
+      final orderedDateTime = (direction == DateTimeOrdering.before)
           ? finishDateTime
           : startDateTime;
       final numberOfDaysInMonth =
@@ -150,9 +153,9 @@ class DateTimeDifference {
   String toString() {
     if (direction == DateTimeOrdering.now) return '00:00:00';
 
-    String result = '';
+    var result = '';
     if (usecs != null && usecs! > 0) {
-      final int milliSeconds = msecs!.toInt() * 1000;
+      final milliSeconds = msecs!.toInt() * 1000;
       result += ".${NumberFormat('000000').format(milliSeconds)}";
     }
     if (result.isEmpty && msecs != null && msecs! > 0) {
@@ -165,14 +168,14 @@ class DateTimeDifference {
     final days = NumberFormat('00').format(this.days ?? 0);
 
     if (years != null && years! > 0) {
-      result = "$years $months $days $result";
+      result = '$years $months $days $result';
     } else if (this.months != null && this.months! > 0) {
-      result = "${this.months} $days $result";
+      result = '${this.months} $days $result';
     } else if (this.days != null && this.days! > 0) {
-      result = "${this.days} $result";
+      result = '${this.days} $result';
     }
 
-    if (direction == DateTimeOrdering.after) result = "-$result";
+    if (direction == DateTimeOrdering.after) result = '-$result';
 
     return result;
   }

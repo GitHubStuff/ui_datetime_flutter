@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 

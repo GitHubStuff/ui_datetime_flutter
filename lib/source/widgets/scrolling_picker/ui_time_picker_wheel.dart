@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -12,16 +14,17 @@ const int _secondsInMinute = 60;
 
 /// To 'mimic' a large scrollwheel, we multiply the number of items by 5
 /// and set the initial item to the middle of the list.
-/// This is to allow the user to [fake] scroll in either direction without
+/// This is to allow the user to *fake* scroll in either direction without
 /// reaching the end of the list.
 const int _wrapping = 5;
 
+/// Enum for Meridian values
 enum Meridian {
   am('AM'),
   pm('PM');
 
-  final String label;
   const Meridian(this.label);
+  final String label;
 }
 
 enum TimePickerItem {
@@ -36,20 +39,19 @@ extension TimePickerNum on DateTime {
 }
 
 class UITimePickerWheel extends StatefulWidget {
+  const UITimePickerWheel({
+    required this.dateTime,
+    required this.onTimeSelected,
+    super.key,
+    this.backgroundColor,
+    this.pickerItemExtent = 30,
+    this.textStyle,
+  });
   final DateTime dateTime;
-  final Function(DateTime) onTimeSelected;
+  final void Function(DateTime) onTimeSelected;
   final Color? backgroundColor;
   final double pickerItemExtent;
   final TextStyle? textStyle;
-
-  const UITimePickerWheel({
-    super.key,
-    required this.dateTime,
-    required this.onTimeSelected,
-    this.backgroundColor,
-    this.pickerItemExtent = 30.0,
-    this.textStyle,
-  });
 
   @override
   State<UITimePickerWheel> createState() => _UITimePickerWheel();
@@ -173,7 +175,7 @@ class _UITimePickerWheel extends State<UITimePickerWheel> {
     FixedExtentScrollController scrollController,
     int maxValue,
     int value,
-    Function(int) onChanged,
+    void Function(int) onChanged,
   ) {
     return CupertinoPicker(
       itemExtent: widget.pickerItemExtent,

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import '../enums/datetime_unit.dart';
 
@@ -15,18 +17,17 @@ import '../enums/datetime_unit.dart';
 /// )
 /// ```
 class UISelectDateTimeUnit extends StatefulWidget {
+  const UISelectDateTimeUnit({
+    required this.initialUnit,
+    required this.onChanged,
+    super.key,
+    this.showMillisecond = false,
+    this.showMicroSecond = false,
+  });
   final DateTimeUnit initialUnit;
   final ValueChanged<DateTimeUnit> onChanged;
   final bool showMillisecond;
   final bool showMicroSecond;
-
-  const UISelectDateTimeUnit({
-    super.key,
-    required this.initialUnit,
-    required this.onChanged,
-    this.showMillisecond = false,
-    this.showMicroSecond = false,
-  });
 
   @override
   State<UISelectDateTimeUnit> createState() => _UISelectDateTimeUnitState();
@@ -46,12 +47,13 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
     final showMillisecond = widget.showMillisecond || widget.showMicroSecond;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           _buildRow([DateTimeUnit.year, DateTimeUnit.month, DateTimeUnit.day]),
           _buildRow(
-              [DateTimeUnit.hour, DateTimeUnit.minute, DateTimeUnit.second]),
+            [DateTimeUnit.hour, DateTimeUnit.minute, DateTimeUnit.second],
+          ),
           if (showMillisecond)
             _buildRow(
               [
@@ -65,18 +67,12 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
   }
 
   Widget _buildRow(List<DateTimeUnit> units) {
-    var result = Row(
+    final result = Row(
+      // ignore: avoid_redundant_argument_values
       mainAxisAlignment: MainAxisAlignment.start,
-      children: units.map((unit) => _buildRadioButton(unit)).toList(),
+      children: units.map(_buildRadioButton).toList(),
     );
-    // if (result.children.length == 2) {
-    //   result = Row(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [
-    //       result..children,
-    //     ],
-    //   );
-    // }
+
     return result;
   }
 
@@ -85,6 +81,7 @@ class _UISelectDateTimeUnitState extends State<UISelectDateTimeUnit> {
       child: InkWell(
         onTap: () => _setSelectedValue(value),
         child: Row(
+          // ignore: avoid_redundant_argument_values
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Radio<String>(

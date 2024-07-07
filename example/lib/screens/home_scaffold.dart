@@ -10,40 +10,45 @@ import '../widgets/sample_datetime_widget.dart';
 
 AlarmCubit _rac = AlarmCubit(FakeSystemDateTime(DateTime(2024, 1, 15, 14, 30)));
 
+/// The group number for the RadioButtonCubit
 int group = 2;
 
 ///
 class HomeScaffold extends StatelessWidget {
+  /// Constructor for HomeScaffold.
   const HomeScaffold({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: homeWidget(context),
-      floatingActionButton: null,
     );
   }
 
+  /// The main widget for the home screen.
   Widget homeWidget(BuildContext context) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(DateTimeDifference(
-                    startEvent: DateTime(1960, 12, 19, 15, 56),
-                    endEvent: DateTime.now())
-                .toString()),
-            const Gap(5.0),
+            Text(
+              DateTimeDifference(
+                startEvent: DateTime(1960, 12, 19, 15, 56),
+                endEvent: DateTime.now(),
+              ).toString(),
+            ),
+            const Gap(5),
             const RepeatingAlarmWidget(),
-            const Gap(1.0),
+            const Gap(1),
             const Text('Date Time Picker: Propmt and Overlay'),
             const SampleDateTimeWidget(),
-            const Gap(3.0),
+            const Gap(3),
             ElevatedButton(
               onPressed: () {
-                _rac.setAlarm(
-                    toDateTime:
-                        DateTime.now().add(const Duration(seconds: 10)));
-                _rac.turnOnAlarm();
+                _rac
+                  ..setAlarm(
+                    toDateTime: DateTime.now().add(const Duration(seconds: 10)),
+                  )
+                  ..turnOnAlarm();
               },
               child: const Text('Start Repeating Alarm'),
             ),
@@ -51,30 +56,28 @@ class HomeScaffold extends StatelessWidget {
               onPressed: () => _rac.turnOffAlarm(),
               child: const Text('Stop Repeating Alarm'),
             ),
-            const Gap(3.0),
+            const Gap(3),
             const Text('-----------------------------------'),
             ElevatedButton(
               onPressed: () {
                 DateTimeToast.show(
-                  message: "Toast Example",
+                  message: 'Toast Example',
                   dateTime: DateTime(2024, 1, 15, 14, 30),
                   duration: const Duration(seconds: 3),
-                  position: DateTimeToastPosition.bottom,
                 );
               },
               child: const Text('Show datetime Toast\n(Toast with DateTime)'),
             ),
             const Text('-----------------------------------'),
-            const Gap(3.0),
+            const Gap(3),
             const Text('Time Unit Radio Button Selector:'),
             UISelectDateTimeUnit(
               initialUnit: DateTimeUnit.month,
               showMicroSecond: true,
               onChanged: (unit) {
                 DateTimeToast.show(
-                  message: "Selected unit: $unit",
+                  message: 'Selected unit: $unit',
                   duration: const Duration(seconds: 1),
-                  position: DateTimeToastPosition.bottom,
                 );
               },
             ),
@@ -83,7 +86,9 @@ class HomeScaffold extends StatelessWidget {
       );
 }
 
+/// A widget that displays a repeating alarm.
 class RepeatingAlarmWidget extends StatefulWidget {
+  /// Constructor for RepeatingAlarmWidget.
   const RepeatingAlarmWidget({super.key});
 
   @override

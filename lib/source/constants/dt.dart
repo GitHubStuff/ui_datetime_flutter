@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import '../enums/datetime_unit.dart';
 import '../extensions/datetime_ext.dart';
 
@@ -30,7 +32,7 @@ class DT {
     DateTime? dateTime, {
     DateTimeUnit truncateAt = DateTimeUnit.second,
   }) =>
-      (dateTime ??= DateTime.now())
+      (dateTime ?? DateTime.now())
           .toLocal()
           .truncate(atDateTimeUnit: truncateAt);
 
@@ -42,7 +44,5 @@ class DT {
     DateTime? dateTime, {
     DateTimeUnit truncateAt = DateTimeUnit.second,
   }) =>
-      (dateTime ??= DateTime.now())
-          .toUtc()
-          .truncate(atDateTimeUnit: truncateAt);
+      (dateTime ?? DateTime.now()).toUtc().truncate(atDateTimeUnit: truncateAt);
 }

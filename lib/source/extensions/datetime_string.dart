@@ -1,17 +1,20 @@
+// ignore_for_file: public_member_api_docs
+
 import '../enums/datetime_unit.dart';
 
+/// Extensions on 'String' to provide additional functionality for datetime strings/options.
 extension DateTimeString on String {
   DateTimeUnit? dateTimeUnitOrNull() {
-    for (DateTimeUnit unit in DateTimeUnit.values) {
+    for (final unit in DateTimeUnit.values) {
       if (unit.name.toLowerCase() == toLowerCase()) return unit;
     }
     return null;
   }
 
-  String formattedDateTime(DateTime? dateTime) {
-    dateTime ??= DateTime.now();
+  String formattedDateTime(DateTime? dateTimeValue) {
+    final dateTime = dateTimeValue ?? DateTime.now();
     // Mapping of format characters to corresponding date/time values
-    final Map<String, String> formatMap = {
+    final formatMap = <String, String>{
       'yyyy': dateTime.year.toString(),
       'yy': dateTime.year.toString().substring(2),
       'MM': dateTime.month.toString().padLeft(2, '0'),
@@ -27,7 +30,7 @@ extension DateTimeString on String {
     };
 
     // Replace format characters with actual date/time values
-    String formattedString = this;
+    var formattedString = this;
     formatMap.forEach((key, value) {
       formattedString = formattedString.replaceAll(key, value);
     });

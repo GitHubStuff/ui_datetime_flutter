@@ -3,12 +3,13 @@ import 'package:ui_positioned_overlay_flutter/ui_positioned_overlay_flutter.dart
 
 import 'ui_datetime_picker.dart';
 
-PageRouteBuilder dateTimeOverlayRoute<T>({
+///
+PageRouteBuilder<T> dateTimeOverlayRoute<T>({
   required GlobalKey globalKey,
   DateTime? dateTime,
-  Offset offset = const Offset(0, 0),
+  Offset offset = Offset.zero,
 }) {
-  return PageRouteBuilder(
+  return PageRouteBuilder<T>(
     opaque: false,
     pageBuilder: (context, _, __) {
       return UIPositionedOverlayWidget<T?>(
@@ -17,7 +18,7 @@ PageRouteBuilder dateTimeOverlayRoute<T>({
         builder: (context, dismiss) {
           return Card(
             color: Colors.transparent,
-            elevation: 0.0,
+            elevation: 0,
             child: SizedBox(
               height: kDateTimePickerSize.height,
               width: kDateTimePickerSize.width,

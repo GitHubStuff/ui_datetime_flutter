@@ -21,15 +21,28 @@ const List<String> _monthAbbr = [
   'DEC',
 ];
 
+/// Date properties for the date picker.
+// ignore: public_member_api_docs
 enum DatePickerItem { year, month, day }
 
 /// This class represents a custom date picker wheel widget for selecting dates.
 class UIDatePickerWheel extends StatefulWidget {
+  /// Constructor for UIDatePickerWheel.
+  const UIDatePickerWheel({
+    required this.dateTime,
+    required this.onDateSelected,
+    super.key,
+    this.backgroundColor,
+    this.months = _monthAbbr,
+    this.pickerItemExtent = 30.0,
+    this.textStyle,
+  });
+
   /// The current date time value.
   final DateTime dateTime;
 
   /// Callback function triggered when a date is selected.
-  final Function(DateTime) onDateSelected;
+  final DateTime? Function(DateTime) onDateSelected;
 
   /// Background color of the picker.
   final Color? backgroundColor;
@@ -42,17 +55,6 @@ class UIDatePickerWheel extends StatefulWidget {
 
   /// List of month abbreviations.
   final List<String> months;
-
-  /// Constructor for UIDatePickerWheel.
-  const UIDatePickerWheel({
-    super.key,
-    required this.dateTime,
-    required this.onDateSelected,
-    this.backgroundColor,
-    this.months = _monthAbbr,
-    this.pickerItemExtent = 30.0,
-    this.textStyle,
-  });
 
   @override
   State<UIDatePickerWheel> createState() => _UIDatePickerWheel();
@@ -98,7 +100,7 @@ class _UIDatePickerWheel extends State<UIDatePickerWheel> {
           children: [
             Expanded(child: monthPicker()),
             Expanded(child: dayPicker()),
-            Expanded(child: yearPicker())
+            Expanded(child: yearPicker()),
           ],
         ),
       );
@@ -141,7 +143,7 @@ class _UIDatePickerWheel extends State<UIDatePickerWheel> {
         selectedDay,
         (day) {
           final maxDays = getMaxDaysInMonth(selectedYear, selectedMonth);
-          selectedDay = ((day - 1) % maxDays + 1);
+          selectedDay = (day - 1) % maxDays + 1;
           updateDateTime();
         },
       );
@@ -171,7 +173,7 @@ class _UIDatePickerWheel extends State<UIDatePickerWheel> {
     int minValue,
     int maxValue,
     int value,
-    Function(int) onChanged,
+    void Function(int) onChanged,
   ) {
     return CupertinoPicker(
       itemExtent: widget.pickerItemExtent,
@@ -200,7 +202,7 @@ class _UIDatePickerWheel extends State<UIDatePickerWheel> {
             case DatePickerItem.day:
               return Center(
                 child: AutoSizeText(
-                  ((index) % (maxValue ~/ _wrapping) + 1).toString(),
+                  (index % (maxValue ~/ _wrapping) + 1).toString(),
                   style: textStyle,
                 ),
               );

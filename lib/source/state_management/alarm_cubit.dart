@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
@@ -8,15 +10,15 @@ part 'alarm_state.dart';
 part 'system_datetime_abstract.dart';
 
 class AlarmCubit extends Cubit<AlarmState> {
+  /// Constructor
+  AlarmCubit(SystemDateTime systemDateTime)
+      : _systemDateTime = systemDateTime,
+        super(AlarmInitial(systemDateTime.now));
+
   final SystemDateTime _systemDateTime;
   Duration? _repeatInterval;
   DateTime? _alarmDateTime;
   Timer? _timer;
-
-//Constructor
-  AlarmCubit(SystemDateTime systemDateTime)
-      : _systemDateTime = systemDateTime,
-        super(AlarmInitial(systemDateTime.now));
 
   @override
   Future<void> close() {
@@ -33,10 +35,11 @@ class AlarmCubit extends Cubit<AlarmState> {
 
   void turnOnAlarm() {
     if (_alarmDateTime == null) return;
+    // ignore: omit_local_variable_types
     final Duration initialDelay =
         _alarmDateTime!.difference(_systemDateTime.now);
     if (!initialDelay.isNegative) {
-      _timer = Timer(initialDelay, () => alarmTriggered());
+      _timer = Timer(initialDelay, alarmTriggered);
     } else {
       alarmTriggered();
     }
@@ -47,7 +50,9 @@ class AlarmCubit extends Cubit<AlarmState> {
     _timer?.cancel();
     if (_repeatInterval != null) {
       _timer = Timer.periodic(
-          _repeatInterval!, (_) => emit(AlarmRepeated(_systemDateTime.now)));
+        _repeatInterval!,
+        (_) => emit(AlarmRepeated(_systemDateTime.now)),
+      );
     }
   }
 

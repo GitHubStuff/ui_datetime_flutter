@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'alarm_cubit.dart';
 
 abstract class SystemDateTime {
@@ -14,14 +16,15 @@ class RealSystemDateTime implements SystemDateTime {
 }
 
 class FakeSystemDateTime implements SystemDateTime {
+  FakeSystemDateTime(this.dateTime) {
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 1000),
+      (_) => _addSeconds++,
+    );
+  }
   final DateTime dateTime;
   int _addSeconds = 0;
   Timer? _timer;
-
-  FakeSystemDateTime(this.dateTime) {
-    _timer = Timer.periodic(
-        const Duration(milliseconds: 1000), (_) => _addSeconds++);
-  }
 
   @override
   DateTime get now => dateTime.add(Duration(seconds: _addSeconds));

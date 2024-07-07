@@ -1,3 +1,5 @@
+// ignore_for_file: omit_local_variable_types, prefer_final_locals, avoid_redundant_argument_values, require_trailing_commas
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
@@ -30,8 +32,10 @@ void main() {
         startEvent: start,
         endEvent: end,
       );
-      expect(interval.toString(),
-          startsWith('-')); // Assuming negative interval is prefixed with '-'
+      expect(
+        interval.toString(),
+        startsWith('-'),
+      ); // Assuming negative interval is prefixed with '-'
     });
 
     test('Mixed units interval', () {
@@ -43,8 +47,10 @@ void main() {
         firstDateTimeUnit: DateTimeUnit.month,
       );
       // The exact output will depend on your implementation details
-      expect(interval.toString(),
-          contains('27 05 02:15:05')); // Check that months are mentioned
+      expect(
+        interval.toString(),
+        contains('27 05 02:15:05'),
+      ); // Check that months are mentioned
     });
 
     test('Leap year day count', () {
@@ -75,17 +81,20 @@ void main() {
         startEvent: start,
         endEvent: end,
       );
-      expect(interval.hours,
-          equals(3)); // Time difference should be calculated correctly in UTC
+      expect(
+        interval.hours,
+        equals(3),
+      ); // Time difference should be calculated correctly in UTC
     });
   });
   test('DateTimeDifference calculates interval correctly', () {
     final startEvent = DateTime(2023, 1, 15);
     final endEvent = DateTime(2024, 1, 15);
     final interval = DateTimeDifference(
-        startEvent: startEvent,
-        endEvent: endEvent,
-        firstDateTimeUnit: DateTimeUnit.year);
+      startEvent: startEvent,
+      endEvent: endEvent,
+      firstDateTimeUnit: DateTimeUnit.year,
+    );
 
     expect(interval.years, equals(1));
     expect(interval.months, equals(0));

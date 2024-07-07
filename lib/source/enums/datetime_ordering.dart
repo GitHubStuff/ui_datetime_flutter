@@ -1,4 +1,7 @@
 /// Enum for representing the relation between two DateTime values
+library;
+// ignore_for_file: public_member_api_docs
+
 enum DateTimeOrdering {
   before,
   now,

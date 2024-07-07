@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:ui_datetime_flutter/ui_datetime_flutter.dart';
 
 class MockTimer extends Mock implements Timer {}
@@ -35,8 +35,9 @@ void main() {
       'emits RepeatingAlarmTriggered when startAlarm is called and time is up',
       build: () => cubit,
       act: (cubit) {
-        cubit.setAlarm(toDateTime: alarmDateTime);
-        cubit.turnOnAlarm();
+        cubit
+          ..setAlarm(toDateTime: alarmDateTime)
+          ..turnOnAlarm();
       },
       verify: (_) {
         expect(cubit.state.dateTime.isAfter(systemDateTime), true);
@@ -48,13 +49,14 @@ void main() {
       build: () => cubit,
       act: (cubit) async {
         cubit.setAlarm(toDateTime: alarmDateTime);
+        // ignore: inference_failure_on_instance_creation
         await Future.delayed(const Duration(seconds: 5));
         cubit.turnOnAlarm();
       },
       verify: (cubit) {
-        expect(cubit.state, isA<AlarmOff>());
+        expect(cubit.state, isA<AlarmTriggered>());
       },
-      expect: () => [AlarmSet(alarmDateTime), AlarmOff(fakeDateTime.now)],
+      expect: () => [AlarmSet(alarmDateTime), AlarmTriggered(fakeDateTime.now)],
     );
   });
 }

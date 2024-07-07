@@ -15,25 +15,28 @@ void main() async {
   );
 }
 
+/// The main application widget.
 class MyApp extends StatelessWidget {
+  /// Constructor for MyApp.
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        routeInformationParser: Modular.routeInformationParser,
-        routerDelegate: Modular.routerDelegate,
-        title: 'Flutter Demo',
-        theme: ThemeData.light().copyWith(
-          extensions: [DateTimeThemeData.lightEarth()],
-        ),
-        darkTheme: ThemeData.dark()
-            .copyWith(extensions: [DateTimeThemeData.darkIndustrial()]),
-        themeMode: ThemeMode.dark,
-        localizationsDelegates: const [],
-        // Use a BlocProvider to provide the UIThemeModeCubit to the widget tree.
-        builder: (context, routerBuilder) =>
-            routerBuilder! /* MultiBlocProvider(
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+      title: 'Flutter Demo',
+      theme: ThemeData.light().copyWith(
+        extensions: [DateTimeThemeData.lightEarth()],
+      ),
+      darkTheme: ThemeData.dark()
+          .copyWith(extensions: [DateTimeThemeData.darkIndustrial()]),
+      themeMode: ThemeMode.dark,
+      localizationsDelegates: const [],
+
+      /// Use a BlocProvider to provide the UIThemeModeCubit to the widget tree
+      builder: (context, routerBuilder) =>
+          routerBuilder! /* MultiBlocProvider(
         providers: [
           BlocProvider<RadioButtonCubit>(
             create: (context) => RadioButtonCubit(radioButtonContent2),
@@ -41,6 +44,7 @@ class MyApp extends StatelessWidget {
         ],
         child: routerBuilder!,
       ), */
-        );
+      ,
+    );
   }
 }
